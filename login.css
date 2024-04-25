@@ -1,0 +1,77 @@
+@font-face {
+    font-family: neu;
+    src: url(./TT.ttf);
+}
+@font-face {
+    font-family: neu;
+    src: url(./all2.otf);
+}
+
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: neu;
+ scroll-behavior: smooth;
+}
+.imgCont{
+ width: 100%;
+ height: 20vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.imgCont img{
+width: 70%;
+ height: 70%; 
+ object-fit: cover;
+}
+form{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+}
+
+form input{
+ width:80% ;
+ height: 50px;
+ padding: 0 15px;
+ border: none; 
+ box-shadow: 0 0 1px #000;
+ outline: none;
+ border-radius: 4px;
+ background-color: #F5F5F5;
+ margin-bottom: 20px;
+}
+
+#signin{
+ border-radius: 8px;
+ background-color:#54befc;
+ border: none;
+ outline: none;
+ box-shadow: 0 0 0;
+ height: 40px;
+ color: #fff;
+}
+form a{
+ text-decoration: none;
+}
+.passCont{
+ width: 100%;
+ flex-direction: row;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.passCont i{
+ margin-right:  -26px;
+ margin-left: 10px;
+ margin-top: -10px;
+ font-size: 20px;
+ transition: transform .33s ease;
+}
+
+.passCont i:active{
+ transform: scale(0.88);
+}

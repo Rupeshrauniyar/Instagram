@@ -1,0 +1,86 @@
+@font-face {
+    font-family: neu;
+    src: url(./TT.ttf);
+}
+@font-face {
+    font-family: neu;
+    src: url(./all2.otf);
+}
+
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: neu;
+ scroll-behavior: smooth;
+}
+.imgCont{
+ width: 100%;
+ height: 20vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.imgCont img{
+width: 70%;
+ height: 70%; 
+ object-fit: cover;
+}
+form{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+}
+
+form input{
+ width:80% ;
+ height: 50px;
+ padding: 0 15px;
+ border: none; 
+ box-shadow: 0 0 1px #000;
+ outline: none;
+ border-radius: 4px;
+ background-color: #F5F5F5;
+ margin-bottom: 20px;
+}
+
+#register{
+ border-radius: 8px;
+ background-color:#54befc;
+ border: none;
+ outline: none;
+ box-shadow: 0 0 0;
+ height: 40px;
+ color: #fff;
+}
+form a{
+ text-decoration: none;
+}
+.profilePicCont{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+}
+.profilePicCont input{
+ position: absolute;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ display: none;
+}
+.profilePicCont img{
+ width: 100px;
+ height: 100px;
+ object-fit: cover;
+ position: relative;
+ border-radius: 50px;
+ border: 2px solid #f6f6f6;
+ transition: transform .1s ease-in-out;
+}
+
+.profilePicCont img:active{
+ transform: scale(0.9);
+ opacity: 0.8;
+}

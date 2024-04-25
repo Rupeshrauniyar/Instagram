@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Instagram | Register</title>
+ <link rel="stylesheet" href="register.css"> 
+ <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+</head>
+<body>
+
+
+
+<div class="imgCont">
+ <img src="instagramWritten.png" alt="">
+</div>
+
+
+<div class="formCont">
+ <form>
+  <div class="profilePicCont">
+   
+<input type="file" id="selectProfilePic" accept="image/*" capture="camera" class="inputFile">
+    <label for="selectProfilePic" id="imageLabel">
+ <img src="user.jpg" alt="user.jpg" id="displayProfilePic">
+ 
+    </label>
+    <p>Choose Profile Picture</p>
+</div>
+
+  <input type="text" placeholder="First Name" id="firstName" required>
+   <input type="text" placeholder="Second Name" id="secondName" required>
+   <input type="email" placeholder="Email" id="email" required>
+  <input type="text" placeholder="Username" id="userName" required>  
+  <input type="password" placeholder="Password" id="password" required>
+  <input type="submit" id="register" value="Register">
+  <span>Already Have An Account? <a href="login.html"> Login</a></span>
+ </form>
+</div>
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="register.js" type="module" defer=""></script> 
+</body>
+</html>
