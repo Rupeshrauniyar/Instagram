@@ -98,13 +98,13 @@ nav{
 
 .PostImg{
  width: 100%;
- height: 400px;
+ height: 50vh;
+ background-color: #000;
 }
 .PostImg img{
  width: 100%;
  height: 100%;
- object-fit: cover;
- border-radius: 2px;
+ object-fit: contain;
 }
 .PostTitle{
  padding: 17px;
@@ -193,13 +193,4 @@ nav{
 
 
 
-@media (min-height: 600px) {
-    .PostImg {
-        width: 100%;
-        height: 50vh; /* Adjust based on screen height */
-        
-    }
-    .Tabs{ 
- height: 60px;
-}
-}
+
