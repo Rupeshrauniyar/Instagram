@@ -108,7 +108,9 @@ nav{
 }
 .PostTitle{
  padding: 17px;
+ border-bottom:0.5px solid #111;
 }
+
 .PostInteractionCont{
  display: flex;
  align-items: center;

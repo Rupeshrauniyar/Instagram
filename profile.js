@@ -29,59 +29,91 @@ onAuthStateChanged(auth, async (user) => {
             const ProfilePic = userDoc.data().ProfilePic;
             const CreatedTime = userDoc.data().CreatedAt;
 
+            const MyuserName = document.querySelector("#MyuserName").textContent = Username;
 
-const MyuserName = document.querySelector("#MyuserName").textContent=Username;       
-            
- 
- 
-var MyProfileClutter=""
-var MyProfile = document.querySelector(".MyProfile");
+            var MyProfileClutter = "";
+            var MyProfile = document.querySelector(".MyProfile");
 
-MyProfileClutter +=`<div class="MyProfilePic">
-  <img src=${ProfilePic} alt="" id="MyProfileImg">
-  <div class="MyName">
- <p>${FirstName} </p> 
- <p> ${SecondName}</p>
- </div>
- </div>
- <div class="MyProfileDets">
-<div class="MyProfilePosts">
-  <p>100</p>
-  <h3>Posts</h3>
-  </div>
-  
-  <div class="MyProfileFollowers">
-  <p>100</p>
-  <h3>Followers</h3>
-  </div>
-  
-  <div class="MyProfileFollowing">
-  <p>100</p>
-  <h3>following</h3>
-  </div>
+            MyProfileClutter += `<div class="MyProfilePic">
+                                    <img src=${ProfilePic} alt="" id="MyProfileImg">
+                                    <div class="MyName">
+                                        <p>${FirstName} </p> 
+                                        <p>${SecondName}</p>
+                                    </div>
+                                </div>
+                                <div class="MyProfileDets">
+                                    <div class="MyProfilePosts">
+                                        <p>100</p>
+                                        <h3>Posts</h3>
+                                    </div>
+                                    <div class="MyProfileFollowers">
+                                        <p>100</p>
+                                        <h3>Followers</h3>
+                                    </div>
+                                    <div class="MyProfileFollowing">
+                                        <p>100</p>
+                                        <h3>Following</h3>
+                                    </div>
+                                </div>`;
 
+            MyProfile.innerHTML = MyProfileClutter;
 
- </div>`
- 
- 
-MyProfile.innerHTML=MyProfileClutter; 
- 
-            
-            
- var LogOutBtn = document.querySelector('#LogOut')
- 
- LogOutBtn.addEventListener("click", function(){
- const auth = getAuth();
-signOut(auth).then(() => {
-alert("Logged Out Successfully.")  
-}).catch((error) => {
-  
-}); 
- })
- 
+            const q = query(collection(db, "Users Post"));
+            const querySnapshot = await getDocs(q);
 
-}
-}else {
- window.location.href="login.html"
-}
-})
+            var MyPostClutter = ""; // Move the initialization outside the forEach loop
+            var MyPostDiv = document.querySelector('.MyPost');
+
+            querySnapshot.forEach((doc) => {
+                var postId = doc.data().PostuserId;
+
+                if (postId === user.uid) {
+                    const PostFirstName = doc.data().PostFirstName;
+                    const PostSecondName = doc.data().PostSecondName;
+                    const PostUsername = doc.data().PostUsername;
+                    const PostProfilePic = doc.data().PostProfilePic;
+                    const PostCaption = doc.data().UserPostCaption;
+                    const UserPostPic = doc.data().UserPostPic;
+                    const CreatedTime = userDoc.data().CreatedAt;
+
+                    MyPostClutter += `<div class="PostCont"> 
+                                        <div class="PosterDets">
+                                            <div class="PosterImage">
+                                                <img src="${PostProfilePic}" alt="">  
+                                            </div>
+                                            <span id="PosterName">${PostUsername}</span>  
+                                        </div>
+                                        <div class="PostImg">
+                                            <img src="${UserPostPic}" alt="">  
+                                        </div>
+                                        <div class="PostTitle">
+                                            <p>${PostCaption}</p>
+                                        </div>
+                                        <div class="PostInteractionCont">
+                                            <div class="PostInteraction">
+                                                <i class="ri-heart-line" id="likeIt"></i> 
+                                                <i class="ri-chat-3-line" id="commentIt"></i>
+                                            </div>
+                                            <div class="PostSave">
+                                                <i class="ri-bookmark-line" id="saveIt"></i>
+                                            </div> 
+                                        </div>
+                                    </div>`;
+                }
+            });
+
+            MyPostDiv.innerHTML = MyPostClutter; // Set the HTML content outside the forEach loop
+
+            var LogOutBtn = document.querySelector('#LogOut');
+
+            LogOutBtn.addEventListener("click", function() {
+                signOut(auth).then(() => {
+                    alert("Logged Out Successfully.");
+                }).catch((error) => {});
+            });
+        }
+    } else {
+        window.location.href = "login.html";
+    }
+});
+    

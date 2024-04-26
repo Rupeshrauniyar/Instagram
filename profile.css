@@ -50,6 +50,60 @@
 
  }
  
+.Post{
+ width: 100%;
+ min-height: 180vh;
+}
+.PosterDets{
+ display: flex;
+ align-items: center;
+ padding: 10px 12px;
+}
+.PosterDets span{
+ margin-left: 10px;
+}
+
+.PosterImage{
+ width: 40px;
+ height: 40px;
+}
+.PosterImage img{
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ border-radius: 50px;
+ margin-right: 20px;
+}
+
+
+
+
+.PostImg{
+ width: 100%;
+ height: 50vh;
+ background-color: #000;
+}
+.PostImg img{
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
+}
+.PostTitle{
+ padding: 17px;
+ border-bottom:0.5px solid #111;
+}
+
+.PostInteractionCont{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 20px 0; 
+}
+
+.PostInteractionCont i{
+ font-size: 30px;
+ padding: 0 15px;
+}
  
 #MyuserName{
  padding: 15px;
@@ -59,6 +113,19 @@
   display: flex;
   justify-content: space-between;
  }
+ 
+ 
+ 
+.MyPost{
+ min-height: 150vh;
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  .Tabs{
  display: flex;
  align-items: center;

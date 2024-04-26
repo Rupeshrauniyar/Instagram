@@ -56,38 +56,47 @@ const q = query(collection(db, "Users Post"));
             var postClutter = "";
 
             querySnapshot.forEach((doc) => {
-                const PostFirstName = doc.data().PostFirstName;
-                const PostSecondName = doc.data().PostSecondName;
-                const PostUsername = doc.data().PostUsername;
-                const PostProfilePic = doc.data().PostProfilePic;
-                const PostCaption = doc.data().UserPostCaption;
-                const UserPostPic = doc.data().UserPostPic;
+    const PostFirstName = doc.data().PostFirstName;
+    const PostSecondName = doc.data().PostSecondName;
+    const PostUsername = doc.data().PostUsername;
+    const PostProfilePic = doc.data().PostProfilePic;
+    const PostCaption = doc.data().UserPostCaption;
+    const UserPostPic = doc.data().UserPostPic;
 
-                postClutter += `
-                <div class="PostCont"> 
-                    <div class="PosterDets">
-                        <div class="PosterImage">
-                            <img src="${PostProfilePic}" alt="">  
-                        </div>
-                        <span id="PosterName">${PostUsername}</span>  
-                    </div>
-                    <div class="PostImg">
-                        <img src="${UserPostPic}" alt="">  
-                    </div>
-                    <div class="PostTitle">
-                     <p>${PostCaption}</p>
-                    </div>
-                    <div class="PostInteractionCont">
-                        <div class="PostInteraction">
-                            <i class="ri-heart-line" id="likeIt"></i> 
-                            <i class="ri-chat-3-line" id="commentIt"></i>
-                        </div>
-                        <div class="PostSave">
-                            <i class="ri-bookmark-line" id="saveIt"></i>
-                        </div> 
-                    </div>
-                </div>`;
-            });
+   
+    const containsLink = /(?:https?|ftp):\/\/[\n\S]+/g.test(PostCaption);
+
+   
+    let formattedCaption = PostCaption;
+    if (containsLink) {
+        formattedCaption = PostCaption.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+    }
+
+    postClutter += `
+    <div class="PostCont"> 
+        <div class="PosterDets">
+            <div class="PosterImage">
+                <img src="${PostProfilePic}" alt="">  
+            </div>
+            <span id="PosterName">${PostUsername}</span>  
+        </div>
+        <div class="PostImg">
+            <img src="${UserPostPic}" alt="">  
+        </div>
+        <div class="PostTitle">
+            <p>${formattedCaption}</p>
+        </div>
+        <div class="PostInteractionCont">
+            <div class="PostInteraction">
+                <i class="ri-heart-line" id="likeIt"></i> 
+                <i class="ri-chat-3-line" id="commentIt"></i>
+            </div>
+            <div class="PostSave">
+                <i class="ri-bookmark-line" id="saveIt"></i>
+            </div> 
+        </div>
+    </div>`;
+});
 
             postDiv.innerHTML = postClutter;
         } 
