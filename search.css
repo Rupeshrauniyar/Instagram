@@ -1,0 +1,71 @@
+
+@font-face {
+    font-family: neu;
+    src: url(./TT.ttf);
+}
+@font-face {
+    font-family: neu;
+    src: url(./all2.otf);
+}
+
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: neu;
+ scroll-behavior: smooth;
+}
+
+.SearchBox {
+    position: relative; /* Make the container relative */
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+#SearchInpIcon {
+    position: absolute;
+    left: 30px; /* Adjust as needed */
+}
+
+#searchInp {
+    width: 95%;
+    height: 30px;
+    padding: 0 35px; /* Add padding to the right to accommodate the icon */
+    border: none;
+    box-shadow: 0 0 1px #000;
+    outline: none;
+    border-radius: 4px;
+    background-color: #EFEFEF;
+}
+
+
+
+
+
+
+
+
+
+ .Tabs{
+ display: flex;
+ align-items: center;
+ justify-content: space-around;
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+ height: 50px;
+ background-color: #fefefe;
+ color: #000;
+ box-shadow: 0 0 1px #000;
+}
+
+.Tabs i{
+ font-size: 25px;
+ transition: all .55s ease;
+}
+.Tabs a{
+ color: #000;
+ text-decoration: none;
+ 
+}

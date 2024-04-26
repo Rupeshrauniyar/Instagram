@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
@@ -28,8 +28,9 @@ onAuthStateChanged(auth, async (user) => {
             const Username = userDoc.data().Username;
             const ProfilePic = userDoc.data().ProfilePic;
             const CreatedTime = userDoc.data().CreatedAt;
-            
-            
+
+
+
             
 var storyDiv = document.querySelector('.story')            
 var storyClutter = "";
@@ -46,67 +47,7 @@ storyDiv.innerHTML= storyClutter;
             
             
             
-            
-       
-var addPicFile;
-var addPostPic = document.getElementById('addPostFileInp')
-
-
-addPostPic.addEventListener('change', function(event) {
-    addPicFile = event.target.files[0];
-    if (addPicFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('AddPostImg').src = e.target.result;
-        };
-        reader.readAsDataURL(addPicFile);
-    }
-});
-
-
-var AddPostBtn = document.querySelector('#addBtn');
-var AddPostTab = document.querySelector(".AddPostTab")
-
-var homeBtn = document.querySelector("#home");
-
-AddPostBtn.addEventListener('click',function(){
-AddPostTab.style.display="initial"; 
-})
-
-homeBtn.addEventListener('click',function(){
-AddPostTab.style.display="none"; 
-})
-
-
-
-var shareBtn = document.querySelector("#AddPostButton");
-
-
-
-
-shareBtn.addEventListener("click",async function(){
-var addPostText = document.querySelector("#addPostText").value;
-
- const PostPicStorageRef = sRef(imgDb, "Users Post/" + addPicFile.name);
-const PostPicSnapshot = await uploadBytesResumable(PostPicStorageRef, addPicFile);
-    const PostPicDownloadUrl = await getDownloadURL(PostPicSnapshot.ref);
-await addDoc(collection(db, "Users Post"), {
-
-                PostFirstName: FirstName,
-                PostSecondName: SecondName,                
-                PostUsername: Username, 
-                PostProfilePic:ProfilePic,               
-                UserPostPic: PostPicDownloadUrl,
-                UserPostCaption: addPostText,
-                PostuserId: user.uid
-  
-}); 
-});
-
-
-
-
-
+         
 
 const q = query(collection(db, "Users Post"));
             const querySnapshot = await getDocs(q);
@@ -151,7 +92,7 @@ const q = query(collection(db, "Users Post"));
             postDiv.innerHTML = postClutter;
         } 
     } else {
-        alert("Please Login First!");
+        
         window.location.href = "login.html";
     }
 });

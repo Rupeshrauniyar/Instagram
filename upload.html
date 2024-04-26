@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="upload.css">
+ <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+ <title>Instagram | Upload</title>
+</head>
+<body>
+
+
+<div class="AddPostTab">
+<div class="NewPostCont">
+ <h3>New Post</h3>
+</div>
+ 
+ <div class="AddPostCont">
+ <input type="file" name="" id="addPostFileInp" accept="image/*" required>
+ <div class="Add">
+  <label for="addPostFileInp" id="labelForAddPostFile">
+    <img src="addPost.png" alt="" id="AddPostImg">
+  
+  </label>
+
+ </div>
+ <div class="AddCaption"> 
+ <textarea type="text" id="addPostText" placeholder="Give Your Post A Caption." maxlength="400" required></textarea>
+ </div>
+
+<div class="AddPostButtonCont">
+<button id="AddPostButton">Share</button>
+</div>
+</div> 
+</div>
+
+
+<div class="TabCont">
+ <div class="Tabs">
+  <a href="index.html"><i class="ri-home-line" id="home"></i></a>
+  <a href="search.html"><i class="ri-search-line" id="search"></i></a>
+  <a href="upload.html"><i class="ri-add-box-fill" id="addBtn"></i></a>
+  <a href="reel.html"><i class="ri-video-line" id="reel"></i></a>
+  <a href="profile.html"><i class="ri-user-line" id="profile"></i></a>
+ </div>
+</div>
+
+
+<script src="upload.js" type="module" defer=""></script>
+</body>
+</head>
+</html>

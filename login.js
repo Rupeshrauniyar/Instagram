@@ -23,21 +23,30 @@ login.addEventListener('click', async function(e) {
     var email = document.querySelector('#email').value;
     var password = document.querySelector('#password').value;
 
-    
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    try{
+     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-
-    
-
-    alert("User loggedIn successfully!");
+ alert("Logged In successfully!");
     window.location.href = "index.html";
 
     // Fetch the user's document from Firestore using email
     const userRef = collection(db, 'Users');
     const userQuery = query(userRef, where('Email', '==', email));
-    const querySnapshot = await getDocs(userQuery);    
+    const querySnapshot = await getDocs(userQuery) 
+  
+  
+    } catch {
+     
+   alert("Invalid E-mail or Password") 
+      
+}
+    
 
-})  
+    
+
+})
+
+
 var showHidePassword = document.querySelector('#showHidePassword');
 var passwordInput = document.querySelector('#password');
 var PassFlag = 0;

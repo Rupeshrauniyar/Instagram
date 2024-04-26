@@ -30,14 +30,20 @@ var sleectProfilePic = document.getElementById('selectProfilePic')
 
 selectProfilePic.addEventListener('change', function(event) {
     profilePicFile = event.target.files[0];
+    const displayProfilePic = document.getElementById('displayProfilePic');
+
     if (profilePicFile) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('displayProfilePic').src = e.target.result;
+            displayProfilePic.src = e.target.result;
         };
         reader.readAsDataURL(profilePicFile);
+    } else {
+        // Set default profile picture if no picture is selected
+        displayProfilePic.src = 'user.jpg';
     }
 });
+
 
 
 register.addEventListener('click', async function(e) {
@@ -60,29 +66,39 @@ register.addEventListener('click', async function(e) {
         return;
     }
 
-    const profilePicStorageRef = sRef(imgDb, "Users Profile Picture/" + profilePicFile.name);
-    const profilePicSnapshot = await uploadBytesResumable(profilePicStorageRef, profilePicFile);
-    const profilePicDownloadUrl = await getDownloadURL(profilePicSnapshot.ref);
+    try {
+        let profilePicDownloadUrl = 'user.jpg';  // Default profile picture URL
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-            const user = userCredential.user;
+        if (profilePicFile) {
+            const profilePicStorageRef = sRef(imgDb, "Users Profile Picture/" + profilePicFile.name);
+            const profilePicSnapshot = await uploadBytesResumable(profilePicStorageRef, profilePicFile);
+            profilePicDownloadUrl = await getDownloadURL(profilePicSnapshot.ref);
+        }
 
-            // Use user.uid as document ID
-            await setDoc(doc(db, "Users", user.uid), {
-                FirstName: firstName,
-                SecondName: secondName,
-                Email: email,
-                Username: username,
-                CreatedAt: createdTime,
-                ProfilePic: profilePicDownloadUrl,
-                userId: user.uid
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const user = userCredential.user;
+
+                // Use user.uid as document ID
+                await setDoc(doc(db, "Users", user.uid), {
+                    FirstName: firstName,
+                    SecondName: secondName,
+                    Email: email,
+                    Username: username,
+                    CreatedAt: createdTime,
+                    ProfilePic: profilePicDownloadUrl,
+                    userId: user.uid
+                });
+
+                alert("Account Registered successfully!");
+            })
+            .catch(error => {
+                console.error("Error registering account:", error);
+                alert("Registration failed. Please try again.");
             });
 
-            alert("User registered successfully!");
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            alert("Registration failed. Please try again.");
-        });
+    } catch (error) {
+        console.error("Error uploading profile picture:", error);
+        alert("Registration failed. Please try again.");
+    }
 });
