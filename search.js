@@ -28,30 +28,69 @@ onAuthStateChanged(auth, async (user) => {
             const Username = userDoc.data().Username;
             const ProfilePic = userDoc.data().ProfilePic;
             const CreatedTime = userDoc.data().CreatedAt;
-
-
-
-           
-            
-            
-         
+var searchClutter=""; 
+ var displayUsersDiv = document.querySelector(".displayUsers")     
 
 const q = query(collection(db, "Users"));
-            const querySnapshot = await getDocs(q);
-            
-            var postDiv = document.querySelector('.Post');
-            
+            const querySnapshot = await getDocs(q);                                  
+            querySnapshot.forEach((doc) => {   
+            const FirstName = doc.data().FirstName;
+            const SecondName = doc.data().SecondName;                     
+            const Username = doc.data().Username;
+            const ProfilePic = doc.data().ProfilePic;
 
-            querySnapshot.forEach((doc) => {            
-            const Username = userDoc.data().Username;
-            const ProfilePic = userDoc.data().ProfilePic;
-            
-                
-        })
-        
-    } 
-    else {        
-        window.location.href = "login.html";
-    }
+     
+ 
+ searchClutter += `
+ <div class="UsersCont">
+ <div class="UsersProfileImg">
+  <img src="${ProfilePic}" alt="">
+ </div>
+ <div class="UsersUsername">
+  <h3>${Username}</h3>
+  <div class="name">
+  <p id="FirstName">${FirstName}</p>
+  <p>${SecondName}</p>
+  </div>
+ </div>
+</div> `
+
+
+displayUsersDiv.innerHTML= searchClutter; 
+
+
+
+ 
+ })
+ }
+         
+              
+  
+  
+    
+    
 }
 })
+
+var searchBar = document.querySelector("#searchInp");
+searchBar.addEventListener("input", function() {
+    const searchTerm = this.value.toLowerCase();
+    var Usernames = document.querySelectorAll('.UsersUsername h3');
+    
+
+    Usernames.forEach(user => {
+        const username = user.textContent.toLowerCase();
+        const userContainer = user.closest('.UsersCont'); 
+        
+   
+        
+  if (username.includes(searchTerm)) {
+            userContainer.style.display = "flex";
+            
+        } else {
+            userContainer.style.display = "none";
+            
+        }
+    });
+});
+

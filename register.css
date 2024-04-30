@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: neu;
     src: url(./TT.ttf);
 }
@@ -6,7 +6,7 @@
     font-family: neu;
     src: url(./all2.otf);
 }
-
+ */
 *{
  margin: 0;
  padding: 0;
@@ -83,4 +83,28 @@ form a{
 .profilePicCont img:active{
  transform: scale(0.9);
  opacity: 0.8;
+}
+#register{
+ transition: all .09s ease;
+}
+#register:active{
+transform: scale(0.95);
+}
+.passCont{
+ width: 100%;
+ flex-direction: row;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.passCont i{
+ margin-right:  -26px;
+ margin-left: 10px;
+ margin-top: -10px;
+ font-size: 20px;
+ transition: transform .33s ease;
+}
+
+.passCont i:active{
+ transform: scale(0.88);
 }

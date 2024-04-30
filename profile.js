@@ -37,8 +37,8 @@ onAuthStateChanged(auth, async (user) => {
             MyProfileClutter += `<div class="MyProfilePic">
                                     <img src=${ProfilePic} alt="" id="MyProfileImg">
                                     <div class="MyName">
-                                        <p>${FirstName} </p> 
-                                        <p>${SecondName}</p>
+                        <p>${FirstName} </p> 
+                                       <p>${SecondName}</p>
                                     </div>
                                 </div>
                                 <div class="MyProfileDets">
@@ -102,7 +102,7 @@ onAuthStateChanged(auth, async (user) => {
                 }
             });
 
-            MyPostDiv.innerHTML = MyPostClutter; // Set the HTML content outside the forEach loop
+            MyPostDiv.innerHTML = MyPostClutter; 
 
             var LogOutBtn = document.querySelector('#LogOut');
 

@@ -114,7 +114,9 @@
   justify-content: space-between;
  }
  
- 
+.MyName p:nth-child(2){
+ margin-left: 5px;
+} 
  
 .MyPost{
  min-height: 150vh;

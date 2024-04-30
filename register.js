@@ -102,3 +102,22 @@ register.addEventListener('click', async function(e) {
         alert("Registration failed. Please try again.");
     }
 });
+const userNameInput = document.getElementById("userName");
+
+userNameInput.addEventListener("input", function() {
+    this.value = this.value.toLowerCase();
+});
+var showHidePassword = document.querySelector('#showHidePassword');
+var passwordInput = document.querySelector('#password');
+var PassFlag = 0;
+showHidePassword.addEventListener('click', function() {
+    if (PassFlag === 0) {
+        passwordInput.type = "text";
+        PassFlag = 1;
+        showHidePassword.classList = "ri-eye-line";
+    } else {
+        passwordInput.type = "password";
+        PassFlag = 0;
+        showHidePassword.classList = "ri-eye-close-line";
+    }
+});
