@@ -134,6 +134,7 @@ var PosterUserId = PosterDet.id;
 if (PosterUserId === user.uid) {
  window.location.href="profile.html"
 }else {
+console.log(PosterUserId)
  window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserId);
 }
 

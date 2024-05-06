@@ -37,7 +37,7 @@ queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         
         var queryParams = getQueryParams();
      var UserId = queryParams.PosterUserId;
-     
+console.log(UserId)     
      
         const userDoc = await getDoc(doc(db, "Users",  UserId ));
         if (userDoc.exists()) {
@@ -185,6 +185,8 @@ document.querySelector("#FollowersCount").textContent=`${updatedFollowers}`
             var postDiv = document.querySelector('.MyPost');
 
             querySnapshot.forEach((doc) => {
+            const postId = doc.data().PostuserId; 
+             if (postId === UserId) {
     const PostFirstName = doc.data().PostFirstName;
     const PostSecondName = doc.data().PostSecondName;
     const PostUsername = doc.data().PostUsername;
@@ -251,6 +253,7 @@ const likedByUser = Like.includes(user.uid);
             </div>  
         </div>`;
 
+}
 })
 
 
