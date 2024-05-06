@@ -36,10 +36,10 @@ queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
 
         
         var queryParams = getQueryParams();
+     var UserId = queryParams.PosterUserId;
      
      
-     
-        const userDoc = await getDoc(doc(db, "Users",  user.uid ));
+        const userDoc = await getDoc(doc(db, "Users",  UserId ));
         if (userDoc.exists()) {
             const FirstName = userDoc.data().FirstName;
             const SecondName = userDoc.data().SecondName;
@@ -82,39 +82,25 @@ queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
                                     </div>                                                                   
                                 </div>
                                </div>
-                                
+                                <div class="FollowFollowing">
+                                <button id="FollowThem">Follow</button>
+                                <button id="MessageThem">Message</button>
+                               </div>
                                
                                `;
 
             MyProfile.innerHTML = MyProfileClutter;
-            
-       var menu = document.querySelector("#menu");
-       var backBtn = document.querySelector("#back")
-       
-       var sideBar = document.querySelector(".Side-Bar") 
- menu.addEventListener("click", function(){
-  sideBar.style.transform="translate(0,0)"
- })           
- backBtn.addEventListener("click", function(){
-  sideBar.style.transform="translate(100%,0)"
- })           
-            
-            var LogOutBtn = document.querySelector('#LogOut');
 
-            LogOutBtn.addEventListener("click", function() {
-                signOut(auth).then(() => {
-                    alert("Logged Out Successfully.");
-                }).catch((error) => {});
-            });
- const q = query(collection(db, "Users Post"));
+const q = query(collection(db, "Users Post"));
 const querySnapshot = await getDocs(q);
 
 const uniquePostIds = new Set();
 
 querySnapshot.forEach((doc) => {
     const PostUserId = doc.data().PostuserId;
-   const PostId = doc.id;       
-    if (PostUserId.includes(user.uid)) {   
+
+    if (PostUserId.includes(UserId)) {
+        const PostId = doc.id;
         uniquePostIds.add(PostId); 
     }
 });
@@ -123,15 +109,82 @@ querySnapshot.forEach((doc) => {
 const postLength = uniquePostIds.size;
 document.querySelector("#Postlength").textContent = postLength;
 
+var FollowThem = document.querySelector("#FollowThem")
+var FollowFlag = 0;
+const FollowersRef = doc(db, 'Users', UserId);  
+const FollowingRef = doc(db, 'Users', user.uid);  
 
+
+
+if (Followers.includes(user.uid)) {
+ FollowFlag=1
+FollowThem.textContent="Unfollow" 
+FollowThem.style.backgroundColor="#EFEFEF";
+FollowThem.style.color="#000";
+}else {
+FollowFlag=0 
+FollowThem.textContent="Follow" 
+FollowThem.style.backgroundColor="#0195F7";
+FollowThem.style.color="#fff";
+}
+
+FollowThem.addEventListener("click", async function(){
+if (FollowFlag === 0) {
+
+
+const UpdateFollowers = await updateDoc(FollowersRef, {
+     Followers: arrayUnion(user.uid)
+      }) 
+      
+ const UpdateFollowing = await updateDoc(FollowingRef, {
+     Following: arrayUnion(UserId)
+      }) 
+      
+      
+      
+      
+       
+      FollowFlag=1;  
+      const updatedDoc = await getDoc(FollowersRef);
+      const updatedFollowers = updatedDoc.data().Followers.length;
+      FollowThem.textContent="Unfollow" 
+      FollowThem.style.backgroundColor="#EFEFEF";
+      FollowThem.style.color="#000";
+ document.querySelector("#FollowersCount").textContent=`${updatedFollowers}`
+}
+
+
+else {
+
+
+const UpdateFollowers = await updateDoc(FollowersRef, {
+     Followers: arrayRemove(user.uid)
+      })  
+      
+      
+const UpdateFollowing = await updateDoc(FollowingRef, {
+     Following: arrayRemove(UserId)
+      }) 
+      FollowFlag=0; 
+      const updatedDoc = await getDoc(FollowersRef);
+      const updatedFollowers = updatedDoc.data().Followers.length;
+      FollowThem.textContent="Follow"  
+      FollowThem.style.backgroundColor="#0195F7";
+      FollowThem.style.color="#fff";
+document.querySelector("#FollowersCount").textContent=`${updatedFollowers}` 
+} 
+
+
+})
+
+
+ 
 
             
             var postClutter = "";
             var postDiv = document.querySelector('.MyPost');
 
-     querySnapshot.forEach((doc) => {
-     const postId = doc.data().PostuserId; 
-                if (postId === user.uid) {
+            querySnapshot.forEach((doc) => {
     const PostFirstName = doc.data().PostFirstName;
     const PostSecondName = doc.data().PostSecondName;
     const PostUsername = doc.data().PostUsername;
@@ -198,13 +251,13 @@ const likedByUser = Like.includes(user.uid);
             </div>  
         </div>`;
 
-}
+})
 
 
 
     
             postDiv.innerHTML = postClutter;
-})
+}
 
 
   var likeBtns = document.querySelectorAll(".likeIt");
@@ -319,12 +372,12 @@ var likeFlag = 0;
     }
 }            
        
-     }
-    }
-    else {
+     }else {
        window.location.href = "login.html";
     }
- }) 
+    })
+    
+  
 
     
             

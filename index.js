@@ -57,34 +57,34 @@ onAuthStateChanged(auth, async (user) => {
     const PostCaption = doc.data().UserPostCaption;
     const UserPostPic = doc.data().UserPostPic;
     const TimeStamp = doc.data().CreatedAt;
-    const Like = doc.data().Like; 
+    const Like = doc.data().Like;    
     const PostId = doc.id;
-
+    const PostuserId = doc.data().PostuserId
 
 
 
 
 const likedByUser = Like.includes(user.uid);
 
-    // Determine the heart icon class based on whether the user has liked the post or not
+   
     const heartIconClass = likedByUser ? "ri-heart-fill" : "ri-heart-line";
     const heartIconColor = likedByUser ? "#FF3040" : "black";
+    
+    
 
-    // Generate post HTML content
 
 
-
-    // Check if the post has a link in its caption
+    
     const containsLink = /(?:https?|ftp):\/\/[\n\S]+/g.test(PostCaption);
     let formattedCaption = PostCaption;
     if (containsLink) {
         formattedCaption = PostCaption.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
     }
 
-    // Generate post HTML content
+
     postClutter += `
         <div class="PostCont"> 
-            <div class="PosterDets">
+            <div class="PosterDets" id="${PostuserId}">
                 <div class="PosterImage">
                     <img src="${PostProfilePic}" alt="">  
                 </div>
@@ -108,7 +108,8 @@ const likedByUser = Like.includes(user.uid);
                 </div> 
             </div>
   <div class="PostLikeCount" id="likeCount_${PostId}">
-    <p>${Like.length} Likes</p>
+   
+  
 </div>
 
      <div class="PostTitle">
@@ -122,15 +123,66 @@ const likedByUser = Like.includes(user.uid);
 
     
             postDiv.innerHTML = postClutter;
+  
+  
+  function SendUserDets(){
+var PosterDets = document.querySelectorAll(".PosterDets") 
+PosterDets.forEach(PosterDet => {
+PosterDet.addEventListener("click",function(dets){
+
+var PosterUserId = PosterDet.id;
+if (PosterUserId === user.uid) {
+ window.location.href="profile.html"
+}else {
+ window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserId);
+}
+
+
+ 
+ 
+}) 
+}) 
+  }
+  SendUserDets()
+  
             
+              
+             function displayLikes() {
+            var likeBtns = document.querySelectorAll(".likeIt");
+            likeBtns.forEach(async function(likeBtn) { 
+               var postId = likeBtn.id;
+        const docRef = doc(db, 'Users Post', postId);  
+            const updatedDoc = await getDoc(docRef);
+        const updatedLikeCount = updatedDoc.data().Like.length;
+    const likeCountElement = document.getElementById(`likeCount_${postId}`);
+           
+   likeCountElement.textContent = formatLikes(updatedLikeCount);
+                 
+           if (updatedLikeCount <= 1) {
+         
+    likeCountElement.textContent = formatLikes(updatedLikeCount); 
+    }
+    else {
+   likeCountElement.textContent = formatLikes(updatedLikeCount);  
+     
+    } 
+    const FormatLike = formatLikes(updatedLikeCount);              
+       
+ })               
+            }    
+        
+   displayLikes();
+   
+   
 
-
-                var likeBtns = document.querySelectorAll(".likeIt");
 var likeFlag = 0;
+                var likeBtns = document.querySelectorAll(".likeIt");
+
 
                 likeBtns.forEach(function(likeBtn) { 
-                
+      
     likeBtn.addEventListener("click", async function() {
+    ;
         var postId = likeBtn.id;
         const docRef = doc(db, 'Users Post', postId);  
 
@@ -141,16 +193,17 @@ var likeFlag = 0;
             const UpdateLike = await updateDoc(docRef, {
                 Like: arrayUnion(user.uid)
             })  
-             // Update like count in frontend
+            
         const updatedDoc = await getDoc(docRef);
         const updatedLikeCount = updatedDoc.data().Like.length;
         const likeCountElement = document.getElementById(`likeCount_${postId}`);
-        likeCountElement.textContent = `${updatedLikeCount} Likes`;
+        likeCountElement.textContent = formatLikes(updatedLikeCount)
         if (updatedLikeCount <= 1) {
          
-    likeCountElement.textContent = `${updatedLikeCount} Like`; 
-    }else {
-   likeCountElement.textContent = `${updatedLikeCount} Likes`;  
+    likeCountElement.textContent = formatLikes(updatedLikeCount)
+    }
+    else {
+   likeCountElement.textContent = formatLikes(updatedLikeCount)
      
     }         
         } 
@@ -161,17 +214,17 @@ var likeFlag = 0;
             const UpdateLike = await updateDoc(docRef, {
                 Like: arrayRemove(user.uid)
             })   
-            // Update like count in frontend
+           
         const updatedDoc = await getDoc(docRef);
         const updatedLikeCount = updatedDoc.data().Like.length;
         const likeCountElement = document.getElementById(`likeCount_${postId}`);
-        likeCountElement.textContent = `${updatedLikeCount} Likes`;
+        likeCountElement.textContent = formatLikes(updatedLikeCount)
         
          if (updatedLikeCount <= 1) {
          
-    likeCountElement.textContent = `${updatedLikeCount} Like`; 
+    likeCountElement.textContent = formatLikes(updatedLikeCount)
     }else {
-   likeCountElement.textContent = `${updatedLikeCount} Likes`;  
+   likeCountElement.textContent = formatLikes(updatedLikeCount) 
      
     }    
         }
@@ -182,7 +235,17 @@ var likeFlag = 0;
     })
   }
                 
-                
+     function formatLikes(count) {
+    if (count >= 1000000000) {
+        return `${(count / 1000000000).toFixed(1)}B Likes`;
+    } else if (count >= 1000000) {
+        return `${(count / 1000000).toFixed(1)}M Likes`;
+    } else if (count >= 1000) {
+        return `${(count / 1000).toFixed(1)}K Likes`;
+    } else {
+        return `${count} Likes`;
+    }
+}            
                 function timeAgo(timestamp) {
                     if (!timestamp || !timestamp.seconds) {
                         return 'Invalid timestamp';

@@ -1,11 +1,11 @@
-/* @font-face {
+ @font-face {
     font-family: neu;
     src: url(./TT.ttf);
 }
 @font-face {
     font-family: neu;
     src: url(./all2.otf);
-} */
+} 
 
 *{
  margin: 0;
@@ -26,9 +26,7 @@ nav{
 
  
 }
-i{
- font-weight: 100;
-}
+
 .imgCont{
  width:216px;
  height:80px;
@@ -73,6 +71,9 @@ i{
 .Post{
  width: 100%;
  min-height: 180vh;
+}
+.PostCont:nth-last-child(1){
+ margin-bottom: 80px;
 }
 .PosterDets{
  display: flex;
@@ -136,9 +137,7 @@ margin-right: 5px;
  padding: 20px 0; 
  
 }
-.PostTitle h4{
- font-weight: 400;
-}
+
 .PostInteractionCont i{
  font-size: 30px;
  padding: 0 15px;

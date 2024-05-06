@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query, serverTimestamp, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 
@@ -48,8 +48,12 @@ addPostPic.addEventListener('change', function(event) {
 });
 
 
+
+
+
+
 var shareBtn = document.querySelector("#AddPostButton");
-shareBtn.addEventListener("click",async function(){
+shareBtn.addEventListener("click", async function(){
 var addPostText = document.querySelector("#addPostText").value;
 
  const PostPicStorageRef = sRef(imgDb, "Users Post/" + addPicFile.name);
@@ -57,8 +61,7 @@ const PostPicSnapshot = await uploadBytesResumable(PostPicStorageRef, addPicFile
 const PostPicDownloadUrl = await getDownloadURL(PostPicSnapshot.ref);
 
 var AddPostImg = document.querySelector("#AddPostImg")
-
-
+const PostRef = await doc(db, 'Users', user.uid);  
 
 
 
@@ -76,7 +79,10 @@ const upload = await addDoc(collection(db, "Users Post"), {
                 Like: [],
                 
   
-});
+})
+
+
+
 
 if (upload) {
  window.location.href="index.html"

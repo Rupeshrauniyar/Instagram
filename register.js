@@ -87,7 +87,9 @@ register.addEventListener('click', async function(e) {
                     Username: username,
                     CreatedAt: createdTime,
                     ProfilePic: profilePicDownloadUrl,
-                    userId: user.uid
+                    userId: user.uid,
+                    Followers: [],
+                    Following: []
                 });
 
                 alert("Account Registered successfully!");

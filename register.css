@@ -1,4 +1,4 @@
-/* @font-face {
+ @font-face {
     font-family: neu;
     src: url(./TT.ttf);
 }
@@ -6,7 +6,7 @@
     font-family: neu;
     src: url(./all2.otf);
 }
- */
+ 
 *{
  margin: 0;
  padding: 0;

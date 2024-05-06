@@ -1,5 +1,12 @@
 
-
+ @font-face {
+    font-family: neu;
+    src: url(./TT.ttf);
+}
+@font-face {
+    font-family: neu;
+    src: url(./all2.otf);
+}
 
 *{
  margin: 0;
