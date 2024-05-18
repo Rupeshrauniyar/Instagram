@@ -7,24 +7,60 @@
  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"
 />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
  <title>Instagram</title>
+ <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+ <link rel="stylesheet"href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+<link
+rel="stylesheet"href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-solid.css">
+<link rel="stylesheet"href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-regular.css">
+<link rel="stylesheet"
+href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 </head>
 
 
 
 <body> 
+ <div class="WhoLikedDiv">
+  <div class="back">
+  <i class="ri-arrow-left-line" id="back"></i>
+  <h3>Likes</h3>
+ </div>
+
+
+ <div class="JustifierLikes">  
+  <h3>Likes</h3>
+ <p id="DisplayLikesCountInWhoLiked">`${Like.length}`</p> 
+ 
+   </div> 
+<hr>
+
+
+<div class="WhoLikedCont">
+</div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  <nav>
 <div class="imgCont">
   <a href="index.html"> <img src="instagramWritten.png" alt=""></a>
   </div>
   <div class="nav2">
-   <i class="ri-heart-line" id="liked"></i>
-   <i class="ri-chat-4-line" id="messages"></i>
+   <i class="fa-regular fa-heart" id="liked"></i>
+<a href="message.html"><i class="fa-brands fa-facebook-messenger" id="messages"></i></a>
    
 
   </div>
  </nav>
- 
+ <!-- <i class="fa-solid fa-heart"></i> -->
 
 
 <div class="story"> 
@@ -39,19 +75,20 @@
 
 <div class="Post">
  <div class="loaderCont">
- <div class="loader"></div>
- </div> 
+ <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+ 
+ </div>
 </div>
 
 
 
 <div class="TabCont">
  <div class="Tabs">
-  <a href="index.html"><i class="ri-home-fill" id="home"></i></a>
-  <a href="search.html"><i class="ri-search-line" id="search"></i></a>
-  <a href="upload.html"><i class="ri-add-box-line" id="addBtn"></i></a>
-  <a href="reel.html"><i class="ri-video-line" id="reel"></i></a>
-  <a href="profile.html"><i class="ri-user-line" id="profile"></i></a>
+<a href="#"><i class="fa-solid fa-house" id="home"></i></a>
+<a href="search.html"><i class="fa-regular fa-magnifying-glass"></i></a>
+<a href="upload.html"><i class="fa-regular fa-plus" id="addBtn"></i></a>
+<a href="reel.html"><i class="fa-regular fa-film" id="reel"></i></a>
+<a href="profile.html"><i class="fa-regular fa-user" id="profile"></i></a>
  </div>
 </div>
 

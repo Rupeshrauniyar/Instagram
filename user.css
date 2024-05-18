@@ -14,7 +14,9 @@
  font-family: neu;
  scroll-behavior: smooth;
 }
-
+body {
+    user-select: none;
+}
  
  .MyProfilePic{
   width: 80px;
@@ -118,7 +120,7 @@
 }
 
 .PostInteractionCont i{
- font-size: 30px;
+ font-size: 25px;
  padding: 0 15px;
 }
 .PostLikeCount{
@@ -149,6 +151,135 @@
  
  
  
+.WhoLikedDiv{
+ width: 100%;
+ height: 100%;
+ position: fixed;
+ background-color: #fff;
+ z-index: 99;
+ transform: translate(0,100%);
+ overflow-y: auto; 
+}
+
+
+
+.WhoFollowedDiv{
+ width: 100%;
+ height: 100%;
+ position: fixed;
+ background-color: #fff;
+ z-index: 99;
+ transform: translate(0,100%);
+ overflow-y: auto; 
+}
+
+
+.WhomIFollowingDiv{
+ width: 100%;
+ height: 100%;
+ position: fixed;
+ background-color: #fff;
+ z-index: 99;
+ transform: translate(0,100%);
+ overflow-y: auto; 
+}
+
+.back{
+ display: flex;
+ padding: 15px;
+}
+#back{
+ padding-right:30px;
+ font-size: 25px;
+}
+#FollowingDivBack{
+ padding-right:30px;
+ font-size: 25px;
+}
+#FollowDivBack{
+ padding-right:30px;
+ font-size: 25px;
+}
+.JustifierLikes{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 21px;
+}
+.JustifierFollowers{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 21px;
+}
+.FollowBack{
+ display: flex;
+ padding: 15px;
+}
+.WhoLikedUsersCont{
+ display: flex;
+ align-items: center;
+ padding: 15px;
+ width: 100%; 
+}
+.WhoLikedUsersCont:nth-last-child(1){
+ margin-bottom: 40px;
+}
+
+.WhoLikedUsersSmall{
+  display: flex;
+ align-items: center;
+ width: 100%; 
+}
+
+.WhoLikedImg{
+width: 70px;
+ height: 70px;
+}
+.WhoLikedImg img{
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ border-radius: 50px;
+ margin-right: 20px;
+
+}
+.WhoLikedDets{
+ padding: 0 10px;
+ width: 40%;
+ 
+}
+.WhoLikedName{
+ display: flex;
+ align-items: center;
+ gap:4px;
+}
+.WhoLikedFollow{
+ padding-left: 20px;
+ 
+}
+
+.WhoLikedFollow button{
+ border: none;
+  outline: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 35px;
+  font-weight: 400;
+  margin: 5px;
+  width: 100%;
+  background-color: #0195F7;
+}
+.WhoLikedFollowButton:active{
+ transform: scale(0.95);
+}
+.SeeProfile{
+ text-align: center;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background-color: red;
+}
  
  
  
@@ -174,3 +305,99 @@
  text-decoration: none;
  
 }
+.loaderCont{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.lds-roller,
+.lds-roller div,
+.lds-roller div:after {
+  box-sizing: border-box;
+}
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7.2px;
+  height: 7.2px;
+  border-radius: 50%;
+  background: #dadada;
+  margin: -3.6px 0 0 -3.6px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 62.62742px;
+  left: 62.62742px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 67.71281px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 70.90963px;
+  left: 48.28221px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 70.90963px;
+  left: 31.71779px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 67.71281px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 62.62742px;
+  left: 17.37258px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12.28719px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

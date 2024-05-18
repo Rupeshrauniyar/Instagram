@@ -1,0 +1,243 @@
+@font-face {
+    font-family: neu;
+    src: url(./TT.ttf);
+}
+
+@font-face {
+    font-family: neu;
+    src: url(./all2.otf);
+} 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: neu;
+    scroll-behavior: smooth;
+    
+}
+body {
+    user-select: none;
+}
+
+.WhoLikedDiv {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #fff;
+    z-index: 99;
+    transform: translate(0,100%);
+    overflow-y: auto; 
+}
+
+.WhoLikedUsersCont {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;      
+    width: 100%; 
+}
+
+.WhoLikedUsersCont:nth-last-child(1) {
+    margin-bottom: 40px;
+}
+
+.WhoLikedUsersSmall{
+    display: flex;
+    align-items: center;
+    width: 100%; 
+    padding:0 5px;
+    transition: all ease;
+    border-radius: 8px;
+}
+
+.WhoLikedUsersSmall:active{
+    
+    background-color: #dadada;
+    
+}
+
+.WhoLikedImg {
+    width: 70px;
+    height: 70px;
+}
+
+.WhoLikedImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50px;
+    margin-right: 20px;
+}
+
+.WhoLikedDets {
+    padding: 0 10px;
+    width: 60%;
+}
+
+.WhoLikedName {
+    display: flex;
+    align-items: center;
+}
+
+.WhoLikedName p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.WhoLikedFollow {
+    padding-left: 20px;
+}
+
+.Tabs{
+ display: flex;
+ align-items: center;
+ justify-content: space-around;
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+ height: 50px;
+ background-color: #fefefe;
+ color: #000;
+ box-shadow: 0 0 1px #000;
+}
+
+.Tabs i{
+ font-size: 25px;
+ transition: all .55s ease;
+}
+.Tabs a{
+ color: #000;
+ text-decoration: none;
+ 
+}
+
+.ChatBox{ 
+ width: 100%;
+ height: 100%;
+ position: fixed;
+ background-color: #fff;
+ z-index: 99;
+ transform: translate(0,100%);
+  
+  overflow-x: hidden;
+
+}
+.NavBar{
+ position: fixed;
+}
+.NavLeft{
+ display: flex;
+ align-items: center;
+ padding: 10px;
+ 
+}
+
+.ProfilePic{
+ width: 40px;
+ height: 40px;
+ margin-left: 15px;
+ margin-right: 15px;
+}
+.ProfilePic img{
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ border-radius: 50%;
+}
+.Name{
+ flex-direction: column;
+}
+
+.SendDiv{
+ display: flex; /* Change from inline-block to flex */
+ align-items: center;
+ justify-content: space-between;
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+ height: 50px;
+ background-color: #fefefe;
+ color: #000;
+ padding: 5px; /* Added padding to give some space around the content */
+}
+
+.SendDiv input{
+ width: 85%; /* Adjusted width to fit the button next to the input */
+ height: 40px;
+ border-radius: 28px;
+ padding: 10px 20px; /* Adjusted padding for better fit */
+ background-color:#EFEFEF ;
+ border: none;
+ outline: none;
+}
+
+.SendButtonDiv{
+ display: flex; /* Use flexbox to align items within the button container */
+ align-items: center;
+ justify-content: center;
+ width: 15%; /* Allocate space for the button */
+}
+
+#SendButton{ 
+ background-color:#425ADE ; 
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border: none;
+ outline: none;
+ padding: 15px 20px; /* Adjusted padding for better fit */
+ border-radius: 50px;
+ color: #fff;
+ cursor: pointer; /* Added cursor pointer for better UX */
+}
+
+.messageCont{
+ 
+ width: 100%;
+ height: 100%;
+}
+.message-box {
+width: 100%;
+     height: 100%;
+    background-color: #fff;
+    z-index: 99;    
+    
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.message-content {
+    margin-top: 2px;
+    background-color: #425ADE;
+    border-radius: 18px;
+    padding: 7px 15px;  
+    max-width: 70%;  
+    width: fit-content;
+    height: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    word-wrap: break-word;
+    display: inline-block;
+    
+}
+#Message_Name{
+ display: none;
+}
+.message-content:nth-last-child(1){
+ margin-bottom: 80px;
+}
+.message-right {
+  background-color: red;
+  text-align: right;
+  float: right;
+  clear: both;
+}
+
+.message-content {
+  background-color: blue;
+  text-align: right;
+  float: right;
+  clear: both;
+}

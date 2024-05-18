@@ -36,8 +36,7 @@ queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
 
         
         var queryParams = getQueryParams();
-     var UserId = queryParams.PosterUserId;
-console.log(UserId)     
+     var UserId = queryParams.PosterUserId;    
      
         const userDoc = await getDoc(doc(db, "Users",  UserId ));
         if (userDoc.exists()) {
@@ -72,11 +71,11 @@ console.log(UserId)
                                 <p id="Postlength"></p>
                                         <h3>Posts</h3>
                                     </div>
-                                    <div class="MyProfileFollowers">
+                             <div class="MyProfileFollowers" id=${UserId}>
                     <p id="FollowersCount">${Followers.length}</p>
                                         <h3>Followers</h3>
                                     </div>
-                                    <div class="MyProfileFollowing">
+                    <div class="MyProfileFollowing" id=${UserId}>
                                    <p>${Following.length}</p>
                                         <h3>Following</h3>
                                     </div>                                                                   
@@ -204,7 +203,7 @@ document.querySelector("#FollowersCount").textContent=`${updatedFollowers}`
 const likedByUser = Like.includes(user.uid);
 
    
-    const heartIconClass = likedByUser ? "ri-heart-fill" : "ri-heart-line";
+const heartIconClass = likedByUser ? "fa-solid fa-heart" : "fa-regular fa-heart";
     const heartIconColor = likedByUser ? "#FF3040" : "black";
     
     
@@ -236,17 +235,16 @@ const likedByUser = Like.includes(user.uid);
                 <div class="PostInteraction">
 <i class="${heartIconClass} likeIt" id="${PostId}" style="color: ${heartIconColor};"></i>           
                 
-                    <i class="ri-chat-3-line commentIt" id=""></i>
+                     <i class="fa-regular fa-comment commentIt"></i>
                     
                 </div>
                 
                 <div class="PostSave">
-                    <i class="ri-bookmark-line" id="saveIt"></i>
+                   <i class="fa-regular fa-bookmark" id="saveIt"></i>
                 </div> 
             </div>
-  <div class="PostLikeCount" id="likeCount_${PostId}">
-    <p></p>
-</div>
+   <div class="PostLikeCount" id="likeCount_${PostId}">      
+ </div>
 
      <div class="PostTitle">
 <h4>${formattedCaption}</h4>
@@ -261,7 +259,536 @@ const likedByUser = Like.includes(user.uid);
     
             postDiv.innerHTML = postClutter;
 }
+async function displayLikedByUsername() {
+    var likeBtns = document.querySelectorAll(".likeIt");
+    var PostLikeCounts = document.querySelectorAll('.PostLikeCount');
 
+    PostLikeCounts.forEach(async function(PostLikeCount) {
+        PostLikeCount.addEventListener("click", async function() {
+            let trimmedId = PostLikeCount.id.replace("likeCount_", "");
+            const docRef = doc(db, 'Users Post', trimmedId);
+            const fetchDoc = await getDoc(docRef);
+            
+            if (fetchDoc.exists()) {
+                let likes = fetchDoc.data().Like;
+                
+                if (Array.isArray(likes)) {
+                    for (let i = 0; i < likes.length; i++) {
+                        const docRef2 = doc(db, 'Users', likes[i]);
+                        const fetchDoc2 = await getDoc(docRef2);
+                        if (fetchDoc2.exists()) {
+const FirstNameOfLikedUser = fetchDoc2.data().FirstName;
+const SecondNameOfLikedUser = fetchDoc2.data().SecondName;
+const UsernameOfLikedUser = fetchDoc2.data().Username;
+const ProfilePicOfLikedUser = fetchDoc2.data().ProfilePic;
+const CreatedTimeOfLikedUser = fetchDoc2.data().CreatedAt;
+const UserId = likes[i]
+const Followers = fetchDoc2.data().Followers;
+const Following = fetchDoc2.data().Following;
+
+
+
+var WhoLikedDiv = document.querySelector(".WhoLikedDiv")
+
+var WhoLikedCont = document.querySelector(".WhoLikedCont")
+WhoLikedDiv.style.transform="translate(0%,0%)"
+
+document.querySelector("#DisplayLikesCountInWhoLiked").textContent=`${likes.length} likes`;
+let WhoLikedClutter = "";
+WhoLikedClutter += `
+ <div class="WhoLikedUsersCont">
+  <div class="WhoLikedUsersSmall" id=${UserId}>
+ <div class="WhoLikedImg">
+  <img src="${ProfilePicOfLikedUser}" alt="">
+ </div>
+ <div class="WhoLikedDets">
+  <div class="WhoLikedUsername">
+   <h3>${UsernameOfLikedUser}</h3>
+  </div>
+  <div class="WhoLikedName">
+  <p>${FirstNameOfLikedUser}</p><p>${SecondNameOfLikedUser}</p>
+  </div>  
+ </div> 
+ </div>
+ <div class="WhoLikedFollow">
+<button class="WhoLikedFollowButton WhoLikedFollowButton_${likes[i]}" id=${likes[i]}>Follow</button>
+<button class="SeeProfile" id=${likes[i]} style="display:none;"><p>See Profile</p></button>
+ </div>
+</div>`
+
+
+
+WhoLikedCont.innerHTML += WhoLikedClutter; 
+
+         }
+
+
+
+var WhoLikedUsersConts = document.querySelectorAll(".WhoLikedUsersCont")  
+
+var WhoLikedFollowButtons = document.querySelectorAll(`WhoLikedFollowButton_${likes[i]}`);
+var FollowFlag = 0;
+WhoLikedFollowButtons.forEach(async function(WhoLikedFollowButton) {
+const FollowersRef = doc(db, 'Users', WhoLikedFollowButton.id);  
+const FollowingRef = doc(db, 'Users', user.uid);  
+const Followers = fetchDoc2.data().Followers;
+const Following = fetchDoc2.data().Following;
+})
+var WhoLikedFollowIdButtons = document.querySelectorAll(`.WhoLikedFollowButton_${likes[i]}`);
+
+WhoLikedFollowIdButtons.forEach(async function(WhoLikedFollowButton) {
+    var FollowFlag = 0;
+    const FollowersRef = doc(db, 'Users', WhoLikedFollowButton.id);  
+    const FollowingRef = doc(db, 'Users', user.uid);  
+    const Followers = fetchDoc2.data().Followers;
+    const Following = fetchDoc2.data().Following;
+
+    if (Followers.includes(user.uid)) {
+        FollowFlag = 1;             
+        
+    }
+var SeeProfiles = document.querySelectorAll(".SeeProfile")
+    
+    
+  
+   if (Array.isArray(likes)) {
+ for (let i = 0; i < likes.length; i++){
+ if (likes[i].includes(user.uid)) {
+ var WhoLikedFollowIdButtons = document.querySelectorAll(`.WhoLikedFollowButton_${likes[i]}`);
+
+WhoLikedFollowIdButtons.forEach(async function(WhoLikedFollowButton) {
+WhoLikedFollowButton.textContent = "See Profile"; 
+
+SeeProfiles.forEach(async function(SeeProfile){
+if (SeeProfile.id === user.uid) {
+WhoLikedFollowButton.style.display="none"
+SeeProfile.style.display="initial"
+SeeProfile.addEventListener("click",function(){
+window.location.href="profile.html" 
+})
+
+}
+}) 
+})              
+}else if(FollowFlag === 1) {
+        WhoLikedFollowButton.textContent = "Unfollow";
+        WhoLikedFollowButton.style.backgroundColor = "#EFEFEF";
+        WhoLikedFollowButton.style.color = "#000";
+     
+WhoLikedFollowButton.style.display="initial"
+
+    } else {
+        WhoLikedFollowButton.textContent = "Follow";
+        WhoLikedFollowButton.style.backgroundColor = "#0195F7";
+        WhoLikedFollowButton.style.color  = "#fff";
+WhoLikedFollowButton.style.display="initial"
+    }
+ }  
+   }
+
+
+})
+
+function SendLikeUserDets(){
+var WhoLikedUsersConts = document.querySelectorAll(".WhoLikedUsersSmall") 
+WhoLikedUsersConts.forEach(WhoLikedUsersCont => {
+WhoLikedUsersCont.addEventListener("click",function(dets){
+var PosterUserId = WhoLikedUsersCont.id;
+if (PosterUserId === user.uid) {
+window.location.href="profile.html"
+}else {
+window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserId);
+} 
+}) 
+}) 
+}
+SendLikeUserDets()
+
+
+document.querySelector("#back").addEventListener("click", function(){
+var WhoLikedDiv = document.querySelector(".WhoLikedDiv")
+WhoLikedDiv.style.transform="translate(0%,100%)"   
+ WhoLikedCont.innerHTML = ""; 
+})
+
+
+
+
+
+var WhoLikedFollowButtons = document.querySelectorAll(`.WhoLikedFollowButton`);
+
+
+
+
+
+WhoLikedFollowButtons.forEach(async function(WhoLikedFollowButton) {
+var FollowFlag = 0;
+const FollowersRef = doc(db, 'Users', WhoLikedFollowButton.id);  
+const FollowingRef = doc(db, 'Users', user.uid);  
+const Followers = fetchDoc2.data().Followers;
+const Following = fetchDoc2.data().Following;
+    WhoLikedFollowButton.addEventListener("click", async function() {
+    
+        if (FollowFlag === 0) {
+            await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
+            await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
+            FollowFlag = 1;
+        } else {
+            await updateDoc(FollowersRef, { Followers: arrayRemove(user.uid) });
+            await updateDoc(FollowingRef, { Following: arrayRemove(WhoLikedFollowButton.id) });
+            FollowFlag = 0;
+        }
+
+        if (FollowFlag === 1) {
+            WhoLikedFollowButton.textContent = "Unfollow";
+            WhoLikedFollowButton.style.backgroundColor = "#EFEFEF";
+            WhoLikedFollowButton.style.color = "#000";
+        } else {
+            WhoLikedFollowButton.textContent = "Follow";
+            WhoLikedFollowButton.style.backgroundColor = "#0195F7";
+            WhoLikedFollowButton.style.color = "#fff";
+        }
+    });
+     })  
+        }
+      } else {
+                    const docRef2 = doc(db, 'Users', likes);
+                    const fetchDoc2 = await getDoc(docRef2);
+                    if (fetchDoc2.exists()) {
+const FirstNameOfLikedUser = fetchDoc2.data().FirstName;
+const SecondNameOfLikedUser = fetchDoc2.data().SecondName;
+const UsernameOfLikedUser = fetchDoc2.data().Username;
+const ProfilePicOfLikedUser = fetchDoc2.data().ProfilePic;
+const CreatedTimeOfLikedUser = fetchDoc2.data().CreatedAt;
+const UserId = likes;
+                        
+                    }
+                    
+                    
+                }
+            } else {
+                console.log("Post not found");
+            }
+            
+        });
+    });
+}
+
+displayLikedByUsername();
+
+
+let followersDivProcessing = false           
+async function displayWhoHasFollowedMe() {
+    const MyProfileFollowers = document.querySelector(".MyProfileFollowers");
+
+    MyProfileFollowers.addEventListener("click", async function() {
+    
+
+if (followersDivProcessing) return;
+
+followersDivProcessing = true
+       
+        const myId = MyProfileFollowers.id;
+        const docRef = doc(db, "Users", myId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const Followers = docSnap.data().Followers;
+
+            for (let i = 0; i < Followers.length; i++) {
+                const fetchUsers = doc(db, "Users", Followers[i]);
+                const fetchSnap = await getDoc(fetchUsers);
+
+                if (fetchSnap.exists()) {
+                    const FirstNameOfLikedUser = fetchSnap.data().FirstName;
+                    const SecondNameOfLikedUser = fetchSnap.data().SecondName;
+                    const UsernameOfLikedUser = fetchSnap.data().Username;
+                    const ProfilePicOfLikedUser = fetchSnap.data().ProfilePic;
+                    const CreatedTimeOfLikedUser = fetchSnap.data().CreatedAt;
+const MyFollowersFollower = fetchSnap.data().Followers;
+const UserId = Followers[i]
+                    const WhoFollowedDiv = document.querySelector(".WhoFollowedDiv");
+                    const WhoFollowedCont = document.querySelector(".WhoFollowedCont");
+                    WhoFollowedDiv.style.transform = "translate(0%,0%)";
+
+                    document.querySelector("#DisplayFollowersCountInWhoFollowed").textContent = `${Followers.length} Followers`;
+
+                    const WhoLikedClutter = `
+   <div class="WhoLikedUsersCont" id=${UserId}>
+                            <div class="WhoLikedUsersSmall">
+                                <div class="WhoLikedImg">
+                                    <img src="${ProfilePicOfLikedUser}" alt="">
+                                </div>
+                                <div class="WhoLikedDets">
+                                    <div class="WhoLikedUsername">
+                                        <h3>${UsernameOfLikedUser}</h3>
+                                    </div>
+                                    <div class="WhoLikedName">
+                                        <p>${FirstNameOfLikedUser}</p><p>${SecondNameOfLikedUser}</p>
+                                    </div>  
+                                </div> 
+                            </div>
+                            <div class="WhoLikedFollow">
+ <button class="WhoFollowedFollowButton" data-userid="${Followers[i]}">Follow</button>
+                            </div>
+                        </div>`;
+
+
+  WhoFollowedCont.insertAdjacentHTML('beforeend', WhoLikedClutter);
+                    
+                    
+
+                  
+                }
+followersDivProcessing = false                     
+ 
+                const MyFollowersFollower = fetchSnap.data().Followers;
+
+
+for (let i = 0;i < MyFollowersFollower.length; i++ ) {
+if (MyFollowersFollower[i].includes(user.uid)) {
+let FollowFlag = 1;
+var WhoFollowedFollowButtons = document.querySelectorAll(`.WhoFollowedFollowButton`)
+WhoFollowedFollowButtons.forEach(async function(WhoFollowedFollowButton) {
+if(FollowFlag === 1) {
+        WhoFollowedFollowButton.textContent = "Unfollow";
+        WhoFollowedFollowButton.style.backgroundColor = "#EFEFEF";
+        WhoFollowedFollowButton.style.color = "#000";     
+WhoFollowedFollowButton.style.display="initial"
+
+    } else {
+    
+        WhoFollowedFollowButton.textContent = "Follow";
+        WhoFollowedFollowButton.style.backgroundColor = "#0195F7";
+        WhoFollowedFollowButton.style.color  = "#fff";
+WhoFollowedFollowButton.style.display="initial"
+    }
+    
+  })
+}
+}
+            }
+function SendFollowersUserDets(){
+var WhomIFollowedConts = document.querySelectorAll(".WhoLikedUsersCont") 
+WhomIFollowedConts.forEach(WhomIFollowedCont => {
+WhomIFollowedCont.addEventListener("click",function(){
+var WhoLikedUsersConts = document.querySelectorAll(".WhoLikedUsersCont") 
+WhoLikedUsersConts.forEach(WhoLikedUsersCont => {
+WhoLikedUsersCont.addEventListener("click", function(){
+if (event.target.tagName !== 'BUTTON') {
+ var PosterUserId = WhoLikedUsersCont.id;
+l
+if (PosterUserId === user.uid) {
+window.location.href="profile.html"
+}else {
+window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserId);
+} 
+}
+})
+}) 
+}) 
+})
+}
+SendFollowersUserDets() 
+
+            const FollowDivBack = document.querySelector("#FollowDivBack");
+            FollowDivBack.addEventListener("click", function() {
+                const WhoFollowedDiv = document.querySelector(".WhoFollowedDiv");
+                const WhoFollowedCont = document.querySelector(".WhoFollowedCont");
+                WhoFollowedCont.innerHTML = "";
+                WhoFollowedDiv.style.transform = "translate(100%,0%)";
+            });
+            
+            
+            
+ 
+
+            const FollowButtons = document.querySelectorAll(".WhoFollowedFollowButton");
+            FollowButtons.forEach(button => {
+                button.addEventListener("click", async function() {
+                    const userId = button.getAttribute("data-userid");
+                    const FollowersRef = doc(db, 'Users', userId);
+                    const FollowingRef = doc(db, 'Users', user.uid);
+
+                    const isFollowing = button.textContent === "Unfollow";
+
+                    if (isFollowing) {
+ await updateDoc(FollowersRef, { Followers: arrayRemove(user.uid) });
+         await updateDoc(FollowingRef, { Following: arrayRemove(userId) });
+                        button.textContent = "Follow";
+                        button.style.backgroundColor = "#0195F7";
+                        button.style.color = "#fff";
+                    } else {
+        await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
+         await updateDoc(FollowingRef, { Following: arrayUnion(userId) });
+                        button.textContent = "Unfollow";
+                       button.style.backgroundColor = "#EFEFEF";
+                       button.style.color = "#000";
+                    }
+                });
+            });
+        } else {
+            console.log("No such document!");
+        }
+    });
+}
+
+displayWhoHasFollowedMe();
+    
+let followingDivProcessing = false
+
+async function displayWhomIHaveFollowed() {
+var MyProfileFollowing = document.querySelector(".MyProfileFollowing");
+
+MyProfileFollowing.addEventListener("click",async function(){
+
+
+if (followingDivProcessing) return;
+followingDivProcessing = true          
+
+
+ var WhomIFollowedDiv = document.querySelector(".WhomIFollowingDiv").style.transform="translate(0,0)"
+var MyProfileFollowing = document.querySelector(".MyProfileFollowing")
+ const myId = MyProfileFollowing.id;
+        const docRef = doc(db, "Users", myId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const Followers = docSnap.data().Following;
+
+            for (let i = 0; i < Followers.length; i++) {
+                const fetchUsers = doc(db, "Users", Followers[i]);
+                const fetchSnap = await getDoc(fetchUsers);
+
+                if (fetchSnap.exists()) {
+                    const FirstNameOfLikedUser = fetchSnap.data().FirstName;
+                    const SecondNameOfLikedUser = fetchSnap.data().SecondName;
+                    const UsernameOfLikedUser = fetchSnap.data().Username;
+                    const ProfilePicOfLikedUser = fetchSnap.data().ProfilePic;
+                    const CreatedTimeOfLikedUser = fetchSnap.data().CreatedAt;
+const MyFollowersFollower = fetchSnap.data().Followers;
+                    const WhoFollowedDiv = document.querySelector(".WhoFollowedDiv");
+                    const WhoFollowedCont = document.querySelector(".WhomIFollowingCont");
+const UserId = Followers[i]                    
+
+                    document.querySelector("#DisplayFollowingCountInWhoFollowed").textContent = `${Followers.length} Following`;
+
+                    const WhoLikedClutter = `
+                        <div class="WhoLikedUsersCont" id=${UserId}>
+                            <div class="WhoLikedUsersSmall">
+                                <div class="WhoLikedImg">
+                                    <img src="${ProfilePicOfLikedUser}" alt="">
+                                </div>
+                                <div class="WhoLikedDets">
+                                    <div class="WhoLikedUsername">
+                                        <h3>${UsernameOfLikedUser}</h3>
+                                    </div>
+                                    <div class="WhoLikedName">
+                                        <p>${FirstNameOfLikedUser}</p><p>${SecondNameOfLikedUser}</p>
+                                    </div>  
+                                </div> 
+                            </div>
+                            <div class="WhoLikedFollow">
+ <button class="WhoFollowedFollowButton" data-userid="${Followers[i]}">Follow</button>
+                            </div>
+                        </div>`;
+
+                    WhoFollowedCont.innerHTML += WhoLikedClutter;
+                }
+               followingDivProcessing = false 
+    
+              const MyFollowersFollower = fetchSnap.data().Followers;
+
+
+for (let i = 0;i < MyFollowersFollower.length; i++ ) {
+if (MyFollowersFollower[i].includes(user.uid)) {
+let FollowFlag = 1;
+var WhoFollowedFollowButtons = document.querySelectorAll(`.WhoFollowedFollowButton`)
+WhoFollowedFollowButtons.forEach(async function(WhoFollowedFollowButton) {
+if(FollowFlag === 1) {
+        WhoFollowedFollowButton.textContent = "Unfollow";
+        WhoFollowedFollowButton.style.backgroundColor = "#EFEFEF";
+        WhoFollowedFollowButton.style.color = "#000";     
+WhoFollowedFollowButton.style.display="initial"
+
+    } else {
+    
+        WhoFollowedFollowButton.textContent = "Follow";
+        WhoFollowedFollowButton.style.backgroundColor = "#0195F7";
+        WhoFollowedFollowButton.style.color  = "#fff";
+WhoFollowedFollowButton.style.display="initial"
+    }
+    
+  })
+}
+}
+            }
+function SendFollowingUserDets(){
+var WhomIFollowedConts = document.querySelectorAll(".WhoLikedUsersCont") 
+WhomIFollowedConts.forEach(WhomIFollowedCont => {
+WhomIFollowedCont.addEventListener("click",function(){
+var WhoLikedUsersConts = document.querySelectorAll(".WhoLikedUsersCont") 
+WhoLikedUsersConts.forEach(WhoLikedUsersCont => {
+WhoLikedUsersCont.addEventListener("click", function(){
+if (event.target.tagName !== 'BUTTON') {
+ var PosterUserId = WhoLikedUsersCont.id;
+
+if (PosterUserId === user.uid) {
+window.location.href="profile.html"
+}else {
+window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserId);
+} 
+}
+})
+}) 
+}) 
+})
+}
+SendFollowingUserDets() 
+            const FollowDivBack = document.querySelector("#FollowDivBack");
+            FollowDivBack.addEventListener("click", function() {
+                const WhoFollowedDiv = document.querySelector(".WhoFollowedDiv");
+                const WhoFollowedCont = document.querySelector(".WhoFollowedCont");
+                WhoFollowedCont.innerHTML = "";
+                WhoFollowedDiv.style.transform = "translate(100%,0%)";
+            });
+
+            const FollowButtons = document.querySelectorAll(".WhoFollowedFollowButton");
+            FollowButtons.forEach(button => {
+                button.addEventListener("click", async function() {
+                    const userId = button.getAttribute("data-userid");
+                    const FollowersRef = doc(db, 'Users', userId);
+                    const FollowingRef = doc(db, 'Users', user.uid);
+
+                    const isFollowing = button.textContent === "Unfollow";
+
+                    if (isFollowing) {
+      await updateDoc(FollowersRef, { Followers: arrayRemove(user.uid) });
+      await updateDoc(FollowingRef, { Following: arrayRemove(userId) });
+                        button.textContent = "Follow";
+                        button.style.backgroundColor = "#0195F7";
+                        button.style.color = "#fff";
+                    } else {
+   await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
+   await updateDoc(FollowingRef, { Following: arrayUnion(userId) });
+                        button.textContent = "Unfollow";
+                       button.style.backgroundColor = "#EFEFEF";
+                       button.style.color = "#000";
+                    }
+                });
+            });
+        } else {
+            console.log("No such document!");
+        }
+    });
+}
+
+
+
+
+displayWhomIHaveFollowed()
+            
+            
 
   var likeBtns = document.querySelectorAll(".likeIt");
             likeBtns.forEach(async function(likeBtn) { 
@@ -307,7 +834,7 @@ var likeFlag = 0;
 
         if (likeFlag === 0) {  
            likeFlag = 1;
-            likeBtn.classList = "ri-heart-fill";
+            likeBtn.classList = "fa-solid fa-heart";
             likeBtn.style.color = "#FF3040";
             const UpdateLike = await updateDoc(docRef, {
                 Like: arrayUnion(user.uid)
@@ -328,7 +855,7 @@ var likeFlag = 0;
         } 
         else {
            likeFlag = 0;
-            likeBtn.classList = "ri-heart-line";
+            likeBtn.classList = "fa-regular fa-heart";
             likeBtn.style.color = "black";
             const UpdateLike = await updateDoc(docRef, {
                 Like: arrayRemove(user.uid)
@@ -381,6 +908,10 @@ var likeFlag = 0;
     })
     
   
-
-    
-            
+const FollowingDivBack = document.querySelector("#FollowingDivBack");
+FollowingDivBack.addEventListener("click", function() {         
+  const WhomIFollowedDiv = document.querySelector(".WhomIFollowingDiv");
+  const WhomIFollowedCont = document.querySelector(".WhomIFollowingCont");
+  WhomIFollowedCont.innerHTML = "";
+  WhomIFollowedDiv.style.transform = "translate(100%,0)";
+ });

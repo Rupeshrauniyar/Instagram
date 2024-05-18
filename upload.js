@@ -37,6 +37,10 @@ var addPostPic = document.getElementById('addPostFileInp')
 
 
 addPostPic.addEventListener('change', function(event) {
+var showDiv = document.querySelector(".showDiv")
+var imgCont = document.querySelector(".imgCont")
+showDiv.style.display="none"
+imgCont.style.backgroundColor="#000"
     addPicFile = event.target.files[0];
     if (addPicFile) {
         const reader = new FileReader();

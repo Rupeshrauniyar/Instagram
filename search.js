@@ -38,11 +38,13 @@ const q = query(collection(db, "Users"));
             const SecondName = doc.data().SecondName;                     
             const Username = doc.data().Username;
             const ProfilePic = doc.data().ProfilePic;
+const UsersId = doc.id
+
 
      
- 
+function fetchUser() {
  searchClutter += `
- <div class="UsersCont">
+ <div class="UsersCont" id="${UsersId}">
  <div class="UsersProfileImg">
   <img src="${ProfilePic}" alt="">
  </div>
@@ -54,26 +56,12 @@ const q = query(collection(db, "Users"));
   </div>
  </div>
 </div> `
-
-
 displayUsersDiv.innerHTML= searchClutter; 
-
-
-
- 
- })
- }
-         
-              
-  
-  
-    
-    
 }
-})
-
+fetchUser();
 var searchBar = document.querySelector("#searchInp");
 searchBar.addEventListener("input", function() {
+
     const searchTerm = this.value.toLowerCase();
     var Usernames = document.querySelectorAll('.UsersUsername h3');
     
@@ -93,4 +81,31 @@ searchBar.addEventListener("input", function() {
         }
     });
 });
+
+
+ function SendUserDets(){
+var UsersConts = document.querySelectorAll(".UsersCont") 
+UsersConts.forEach(UsersCont => {
+UsersCont.addEventListener("click",function(dets){
+
+var PosterUserId = UsersCont.id;
+if (PosterUserId === user.uid) {
+ window.location.href="profile.html"
+}else {
+
+ window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserId);
+}
+}) 
+}) 
+  }
+  SendUserDets()
+ 
+ 
+ })
+ }
+         
+    }else{
+     window.location.href="login.html"
+    }
+})
 

@@ -14,6 +14,9 @@
  font-family: neu;
  scroll-behavior: smooth;
 }
+body {
+    user-select: none;
+}
 .imgCont{
  width: 100%;
  height: 20vh;

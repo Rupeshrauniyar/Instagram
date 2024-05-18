@@ -79,7 +79,7 @@ register.addEventListener('click', async function(e) {
             .then(async (userCredential) => {
                 const user = userCredential.user;
 
-                // Use user.uid as document ID
+               
                 await setDoc(doc(db, "Users", user.uid), {
                     FirstName: firstName,
                     SecondName: secondName,
@@ -89,7 +89,8 @@ register.addEventListener('click', async function(e) {
                     ProfilePic: profilePicDownloadUrl,
                     userId: user.uid,
                     Followers: [],
-                    Following: []
+                    Following: [],
+                    Chats: []
                 });
 
                 alert("Account Registered successfully!");

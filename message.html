@@ -3,7 +3,7 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="stylesheet" href="user.css">
+ <link rel="stylesheet" href="message.css">
  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"
 />
@@ -17,73 +17,58 @@ rel="stylesheet"href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sh
 href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 </head>
 <body>
-<div class="WhoLikedDiv">
-  <div class="back">
-  <i class="ri-arrow-left-line" id="back"></i>
-  <h3>Likes</h3>
- </div>
-
-
- <div class="JustifierLikes">  
-  <h3>Likes</h3>
- <p id="DisplayLikesCountInWhoLiked">`${Like.length}`</p> 
  
-   </div> 
-<hr>
+<div class="ChatBox">
 
 
-<div class="WhoLikedCont">
+
+<div class="NavBar">
+ 
+ <div class="NavLeft">
+<i class="fa-solid fa-arrow-left"></i>
+<div class="ProfilePic">
+ <img src="user.jpg" alt="">
+</div> 
+<div class="Name">
+<h3 id="Full Name">Rupesh Rauniyar</h3>
+<p id="username">_rupesh</p>
+</div>
+</div>
+
+
+<div class="Chats"> 
+<div class="box">
+ 
+</div> 
+</div>
+
+<div class="messageCont">
+<div class="message-box">   
+ 
+     
+    </div>
+</div>
+
+</div>
+
+<div class="SendDiv">
+<input type="text" id="messageBox" placeholder="Message."> 
+<div class="SendButtonDiv">
+<i class="fa-sharp fa-solid fa-paper-plane" id="SendButton"></i>
+</div>
+
+
+</div>
+
 </div>
  </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <main>
   
-
-<div class="WhoFollowedDiv">
-  <div class="FollowBack">
-  <i class="ri-arrow-left-line" id="FollowDivBack"></i>
-  <h3>Followers</h3>
- </div>
- <div class="JustifierFollowers">  
-  <h3>Followers</h3>
- <p id="DisplayFollowersCountInWhoFollowed">0 Followers</p> 
-</div> 
-<hr>
-<div class="WhoFollowedCont">
-</div>
-</div>
-
-<div class="WhomIFollowingDiv">
-  <div class="FollowBack">
-  <i class="ri-arrow-left-line"id="FollowingDivBack"></i>
-  <h3>Following</h3>
- </div>
- <div class="JustifierFollowers">  
-  <h3>Following</h3>
- <p id="DisplayFollowingCountInWhoFollowed">0 Following</p> 
-</div> 
-<hr>
-<div class="WhomIFollowingCont">
-</div>
-</div>
-
-
-
-
-<h3 id="MyuserName"></h3>
-
-
-<div class="MyProfile">
-</div>
-
-<div class="MyPost">
-<div class="loaderCont">
- <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
- 
- </div>
-</div>
-
-
-
-
+  <div class="MessagingUsers"></div>
 <div class="TabCont">
  <div class="Tabs">
   <a href="index.html"><i class="fa-regular fa-house" id="home"></i></a>
@@ -93,8 +78,13 @@ href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 <a href="profile.html"><i class="fa-regular fa-user" id="profile"></i></a>
  </div>
 </div>
-<script src="user.js" type="module" defer=""></script> 
+   
+  
+ </main>
+ 
+
+ 
+ 
+ <script src="message.js" type="module" defer=""></script>
  </body>
  </head>
- </html>
- 

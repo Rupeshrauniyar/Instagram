@@ -14,7 +14,9 @@
  font-family: neu;
  scroll-behavior: smooth;
 }
-
+body {
+    user-select: none;
+}
 
 .AddPostTab{
  width: 100%;
@@ -54,24 +56,26 @@ width: 100%;
  align-items: center; 
  justify-content: center;
  flex-direction: column; 
- background-color:#000;
+ background-color:#EFF0F2;
 }
 #labelForAddPostFile{
- height: 10vh;
+ height: 55vh;
  display:flex;
  align-items: center; 
  justify-content: center;
  flex-direction: column;
- 
 }
 #labelForAddPostFile p{
- color: #5582ff;
- text-decoration: underline;
-
+ font-weight: 400;
  
 }
 
-
+.showDiv{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+}
 #AddPostImg {
   width: 100%;
   height: auto;
