@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query,updateDoc, arrayUnion, arrayRemove, FieldValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query,updateDoc, arrayUnion, arrayRemove,serverTimestamp, onSnapshot} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 
@@ -34,10 +34,9 @@ onAuthStateChanged(auth, async (user) => {
      
      for (let i = 0; i< MyChats.length; i++ ) {
     const LoggedinUserId = user.uid;     
-    const TrimmedChatId = MyChats[i].replace(LoggedinUserId, "");
+    const TrimmedChatId = MyChats[i].replace(LoggedinUserId,"");
     
-   
-  const fetchUsers = doc(db, "Users", TrimmedChatId);
+   const fetchUsers = doc(db, "Users", TrimmedChatId);
   const fetchSnap = await getDoc(fetchUsers);  
   
 const MyChatsFirstName = fetchSnap.data().FirstName;
@@ -47,8 +46,7 @@ const MyChatsProfilePic = fetchSnap.data().ProfilePic;
 const MyChatsCreatedTime = fetchSnap.data().CreatedAt;
 const MyChatsFollowers = fetchSnap.data().Followers;
 const MyChatsFollowing = fetchSnap.data().Following;
-
-
+ 
  
  
  
@@ -90,42 +88,72 @@ var UsersConts = document.querySelectorAll(".UsersCont")
 
 UsersConts.forEach(async function(UsersCont) {
 UsersCont.addEventListener("click", async function(){
+var nav = document.querySelector("nav")
+nav.style.display="none"
 
-const UsersContId = UsersCont.id.toString(); 
+
+let sendDivClutter = ""
+var SendDivCont = document.querySelector(".sendCont")
+sendDivClutter +=`<div class="SendDiv">
+<input type="text" id="messageBox" placeholder="Message."> 
+<div class="SendButtonDiv">
+<i class="fa-sharp fa-solid fa-paper-plane" id="SendButton"></i>
+</div>
+</div>`
+
+SendDivCont.innerHTML=sendDivClutter;
+var UsersContId = UsersCont.id.toString(); 
+
 
 const fetchUsersChats = doc(db, "UsersChats", UsersContId);
 const fetchSnapChats = await getDoc(fetchUsersChats);  
+
+console.log(UsersContId)
   
 const Messages = fetchSnapChats.data().Message;
 var ChatBox = document.querySelector(".ChatBox")
 
 ChatBox.style.transform="translate(0,0)";
+if (ChatBox.style.transform="translate(0,0)") {
+nav.style.display="none" 
+}
+var ChatCont = document.querySelector(".ChatCont")
+
+ChatCont.style.transform="translate(0,0)";
+
+
 var messageInpBox = document.querySelector("#messageBox")
 var messageBox = document.querySelector(".message-box")
 
 var messageClutter = "";
-function fetchDoc() {
+
  
 
 Messages.forEach(async function(Message) {
 messageClutter += `<div class="message-content" data-userId=${Message.UserId}>
-<p id="Message_Name">${Message.Message}</p>
+${Message.Message}
  </div>       `
 messageBox.innerHTML=messageClutter;
+
+const lastMessage = messageBox.lastElementChild;
+      if (lastMessage) {
+     lastMessage.scrollIntoView({ behavior: 'smooth' });
+  }
+  messageBox.scrollTop = messageBox.scrollHeight;
+                    
 })
-}
-fetchDoc()
+
+var Back = document.querySelector("#Back")
+Back.addEventListener("click", function(){
+ChatBox.style.transform="translate(0,100%)";
+ChatCont.style.transform="translate(0,100%)"; 
+nav.style.display="flex"
+messageBox.innerHTML=null;
+
+})
 async function SetDocuments() {
 
 var messageInpBox = document.querySelector("#messageBox");
-
-
- 
-
-
-
-
-
 var UsersContId = UsersCont.id
 
 const ChatsRef = doc(db, "UsersChats", UsersContId);
@@ -138,7 +166,7 @@ var messageInpBoxValue = document.querySelector("#messageBox").value;
 
 
    const MyChats = userDoc.data().MyChats
-     
+ const timestamp = new Date();    
      for (let i = 0; i< MyChats.length; i++ ) {
     const LoggedinUserId = user.uid;     
     const TrimmedChatId = MyChats[i].replace(LoggedinUserId, "");   
@@ -153,18 +181,21 @@ var messageInpBoxValue = document.querySelector("#messageBox").value;
 const NewMessage = {
  Message:messageInpBoxValue,
  Name: FirstName,
- UserId: user.uid
+ UserId: user.uid,
+randomId: timestamp+user.uid,
+Time: timestamp
 }
 
 if (ReceiverUserMyChats.includes(UsersContId)) {
 await updateDoc(ChatsRef,{
     Message: arrayUnion(NewMessage)
 }); 
-  
+
 }else {
 await updateDoc(ChatsRef,{
     Message: arrayUnion(NewMessage)
 }); 
+
 await updateDoc(ChatsUsersRef, {
     MyChats: arrayUnion(UsersContId)
 }); 
@@ -174,7 +205,7 @@ await updateDoc(ChatsUsersRef, {
 
 
 
-
+document.querySelector("#messageBox").value = "";
 
 }
 })
@@ -183,48 +214,60 @@ await updateDoc(ChatsUsersRef, {
 
 SetDocuments()
 async function FindMessageAuthor() {
-  const messageContents = document.querySelectorAll(".message-content");
-  const fetchUsersChats = doc(db, "UsersChats", UsersContId);
-  const fetchSnapChats = await getDoc(fetchUsersChats);    
-  const Messages = fetchSnapChats.data().Message;
 
-  messageContents.forEach(messageContent => {
-    const messagerUserId = messageContent.getAttribute("data-userid");
 
-    if (messagerUserId === user.uid) {
-      messageContent.classList.add("message-right");
-      messageContent.classList.remove("message-left");
-      console.log("yess")
-    } else {
-      messageContent.classList.add("message-left");
-      messageContent.classList.remove("message-right");
-    }
-  });
+const fetchUsersChats = doc(db, "UsersChats", UsersContId);
+const fetchSnapChats = await getDoc(fetchUsersChats);  
+
+const Mess = fetchSnapChats.data().Message
+for (let i= 0; i< Mess.length; i++ ) {
+const MessId = Mess[i].UserId
+var messageContents = document.querySelectorAll(".message-content")
+if (MessId === user.uid) {
+messageContents.forEach(async function(messageContent) {
+messageContent.style.backgroundColor="red" 
+})
+}else {
+messageContents.forEach(async function(messageContent) {
+messageContent.style.backgroundColor="pink" 
+}) 
 }
-FindMessageAuthor()
-setInterval(FindMessageAuthor, 1000);
-
-async function fetchAndUpdateMessages() {
-  try {
-    const updatedDoc = await getDoc(fetchUsersChats);
-    const updatedMessages = updatedDoc.data().Message || [];
-    let messageClutter = "";
-    updatedMessages.forEach(message => {
-      messageClutter += `
-        <div class="message-content"><p id="Message_Name">${message.Name}</p>${message.Message}</div>`;
-    });
-    messageBox.innerHTML = messageClutter;
-  } catch (error) {
-    console.error("Error fetching messages:", error);
-  }
 }
+}
+setInterval(FindMessageAuthor,100)
+function displayMessages(messages) {
+                        let messageClutter = "";
+                        messages.forEach(message => {
+                            messageClutter += `<div class="message-content" data-userId=${message.UserId}>
+                                ${message.Message}
+                            </div>
+                          <div class="margin-topper"></>`;
+                        });
+                        messageBox.innerHTML = messageClutter;
+                        const lastMessage = messageBox.lastElementChild;
+                        if (lastMessage) {
+                            lastMessage.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        messageBox.scrollTop = messageBox.scrollHeight;
+                    }
 
-// Call the function every second
-setInterval(fetchAndUpdateMessages, 1000);
+                 
+                    onSnapshot(fetchUsersChats, (docSnapshot) => {
+                        const updatedMessages = docSnapshot.data().Message || [];
+                        displayMessages(updatedMessages);
+                    });
 
-// Optionally, call the function immediately to fetch messages on page load
-fetchAndUpdateMessages();
-                            
+var Back = document.querySelector("#Back")
+Back.addEventListener("click", function(){
+ChatBox.style.transform="translate(0,100%)";
+ChatCont.style.transform="translate(0,100%)"; 
+nav.style.display="flex"
+messageBox.innerHTML=null;
+
+})
+
+ 
+
 
 document.querySelector("#messageBox").addEventListener("keypress", (e) => {
 if (e.key === 'Enter') {

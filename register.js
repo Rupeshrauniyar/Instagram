@@ -90,7 +90,7 @@ register.addEventListener('click', async function(e) {
                     userId: user.uid,
                     Followers: [],
                     Following: [],
-                    Chats: []
+                    MyChats: []
                 });
 
                 alert("Account Registered successfully!");

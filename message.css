@@ -19,46 +19,68 @@
 body {
     user-select: none;
 }
+nav{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 0 10px;
+ height: 8vh;
+ width: 100%;
+ background-color: #fefefe;
 
+ 
+}
+.imgCont{
+ width:216px;
+ height:80px;
+}
+.imgCont img{
+ width: 70%;
+ height: 70%;
+ object-fit: cover;
+}
+
+.UsersCont{
+ padding: 10px 0;
+}
 .WhoLikedDiv {
     width: 100%;
     height: 100%;
     position: fixed;
     background-color: #fff;
     z-index: 99;
-    transform: translate(0,100%);
-    overflow-y: auto; 
+    transform: translate(0, 100%);
+    overflow-y: auto;
 }
 
 .WhoLikedUsersCont {
     display: flex;
     align-items: center;
-    padding: 10px 0;      
-    width: 100%; 
+    width: 100%;
 }
 
 .WhoLikedUsersCont:nth-last-child(1) {
-    margin-bottom: 40px;
+    margin-bottom: 0; /* Removed bottom margin */
 }
 
-.WhoLikedUsersSmall{
+.WhoLikedUsersSmall {
     display: flex;
     align-items: center;
-    width: 100%; 
-    padding:0 5px;
+    width: 100%;
+    padding: 0 5px; /* Adjusted padding to remove vertical spacing */
     transition: all ease;
     border-radius: 8px;
+    margin: 0; /* Removed margin */
 }
 
-.WhoLikedUsersSmall:active{
-    
+.WhoLikedUsersSmall:active {
     background-color: #dadada;
-    
 }
 
 .WhoLikedImg {
     width: 70px;
     height: 70px;
+    margin-right: 10px; /* Adjusted margin to remove extra spacing */
 }
 
 .WhoLikedImg img {
@@ -66,12 +88,12 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 50px;
-    margin-right: 20px;
 }
 
 .WhoLikedDets {
     padding: 0 10px;
     width: 60%;
+    margin: 0; /* Removed margin */
 }
 
 .WhoLikedName {
@@ -83,10 +105,12 @@ body {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    margin: 0; /* Removed margin */
 }
 
 .WhoLikedFollow {
     padding-left: 20px;
+    margin: 0; /* Removed margin */
 }
 
 .Tabs{
@@ -114,25 +138,39 @@ body {
 
 .ChatBox{ 
  width: 100%;
- height: 100%;
- position: fixed;
+ height: 100%; 
  background-color: #fff;
  z-index: 99;
  transform: translate(0,100%);
+  position: fixed;
+  overflow-x: hidden; 
   
-  overflow-x: hidden;
-
+}
+.ChatCont{
+ width: 100%;
+ height: 100%;
+ position: fixed;
+ background-color: #fff;
+ z-index: 99; 
+  overflow-y: auto;
+  overflow-x: hidden; 
 }
 .NavBar{
  position: fixed;
+ width: 100%;
 }
 .NavLeft{
  display: flex;
  align-items: center;
  padding: 10px;
- 
+ position: fixed;
+ background-color: #fff;
+ z-index: 100;
+ width: 100%;
 }
-
+#Back{
+ font-size: 20px;
+}
 .ProfilePic{
  width: 40px;
  height: 40px;
@@ -160,6 +198,8 @@ body {
  background-color: #fefefe;
  color: #000;
  padding: 5px; /* Added padding to give some space around the content */
+ z-index: 99999999;
+ margin-top: 500px;
 }
 
 .SendDiv input{
@@ -195,49 +235,46 @@ body {
 .messageCont{
  
  width: 100%;
- height: 100%;
+ min-height: 100%;
 }
 .message-box {
-width: 100%;
-     height: 100%;
+    width: 100%;
+     height: 100%;     
     background-color: #fff;
-    z-index: 99;    
-    
+    z-index: 99;            
     display: flex;
     flex-direction: column;
-    margin: 10px;
+margin: 10px;    
 }
 
-.message-content {
-    margin-top: 2px;
+.message-content { 
+margin-top: 7px;
+   
     background-color: #425ADE;
     border-radius: 18px;
-    padding: 7px 15px;  
+    padding: 10px 15px;  
     max-width: 70%;  
     width: fit-content;
     height: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     color: #fff;
     word-wrap: break-word;
-    display: inline-block;
+    
     
 }
 #Message_Name{
  display: none;
 }
-.message-content:nth-last-child(1){
- margin-bottom: 80px;
+.message-content:nth-child(1){
+ margin-top: 60px;
 }
+
 .message-right {
   background-color: red;
   text-align: right;
   float: right;
   clear: both;
 }
-
-.message-content {
-  background-color: blue;
-  text-align: right;
-  float: right;
-  clear: both;
+.margin-topper:nth-last-child(1){
+ margin-top: 50px;
 }

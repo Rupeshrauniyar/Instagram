@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query,updateDoc, arrayUnion, arrayRemove} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query,updateDoc, arrayUnion, arrayRemove, setDoc} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 
@@ -145,25 +145,28 @@ window.location.href = 'user.html?PosterUserId='+ encodeURIComponent(PosterUserI
 SendUserDets()
   
   
-  
+  let LikesProcessing = false;
 async function displayLikedByUsername() {
     var likeBtns = document.querySelectorAll(".likeIt");
     var PostLikeCounts = document.querySelectorAll('.PostLikeCount');
 
     PostLikeCounts.forEach(async function(PostLikeCount) {
         PostLikeCount.addEventListener("click", async function() {
+LikesProcessing = true;        
             let trimmedId = PostLikeCount.id.replace("likeCount_", "");
             const docRef = doc(db, 'Users Post', trimmedId);
             const fetchDoc = await getDoc(docRef);
             
             if (fetchDoc.exists()) {
                 let likes = fetchDoc.data().Like;
-                
+                   
                 if (Array.isArray(likes)) {
                    
                     
-likes.forEach(async function(like){                    
-                        const docRef2 = doc(db, 'Users', like);
+for (let i = 0; i < likes.length; i++ ) {
+console.log(likes[i]) 
+                                 
+                        const docRef2 = doc(db, 'Users', likes[i]);
                         const fetchDoc2 = await getDoc(docRef2);
                         if (fetchDoc2.exists()) {
 const FirstNameOfLikedUser = fetchDoc2.data().FirstName;
@@ -171,7 +174,7 @@ const SecondNameOfLikedUser = fetchDoc2.data().SecondName;
 const UsernameOfLikedUser = fetchDoc2.data().Username;
 const ProfilePicOfLikedUser = fetchDoc2.data().ProfilePic;
 const CreatedTimeOfLikedUser = fetchDoc2.data().CreatedAt;
-const UserId = like
+const UserId = likes[i]
 const Followers = fetchDoc2.data().Followers;
 const Following = fetchDoc2.data().Following;
 
@@ -200,8 +203,8 @@ WhoLikedClutter += `
  </div> 
  </div>
  <div class="WhoLikedFollow">
-<button class="WhoLikedFollowButton WhoLikedFollowButton_${like}" id=${like}>Follow</button>
-<button class="SeeProfile" id=${like} style="display:none;"><p>See Profile</p></button>
+<button class="WhoLikedFollowButton WhoLikedFollowButton_${likes[i]}" id=${likes[i]}>Follow</button>
+<button class="SeeProfile" id=${likes[i]} style="display:none;"><p>See Profile</p></button>
  </div>
 </div>`
 
@@ -210,12 +213,12 @@ WhoLikedClutter += `
 WhoLikedCont.innerHTML += WhoLikedClutter; 
 
          }
-
+LikesProcessing = false;
 
 
 var WhoLikedUsersConts = document.querySelectorAll(".WhoLikedUsersCont")  
 
-var WhoLikedFollowButtons = document.querySelectorAll(`WhoLikedFollowButton_${like}`);
+var WhoLikedFollowButtons = document.querySelectorAll(`WhoLikedFollowButton_${likes[i]}`);
 var FollowFlag = 0;
 WhoLikedFollowButtons.forEach(async function(WhoLikedFollowButton) {
 const FollowersRef = doc(db, 'Users', WhoLikedFollowButton.id);  
@@ -223,7 +226,7 @@ const FollowingRef = doc(db, 'Users', user.uid);
 const Followers = fetchDoc2.data().Followers;
 const Following = fetchDoc2.data().Following;
 })
-var WhoLikedFollowIdButtons = document.querySelectorAll(`.WhoLikedFollowButton_${like}`);
+var WhoLikedFollowIdButtons = document.querySelectorAll(`.WhoLikedFollowButton_${likes[i]}`);
 
 WhoLikedFollowIdButtons.forEach(async function(WhoLikedFollowButton) {
     var FollowFlag = 0;
@@ -237,13 +240,11 @@ WhoLikedFollowIdButtons.forEach(async function(WhoLikedFollowButton) {
         
     }
 var SeeProfiles = document.querySelectorAll(".SeeProfile")
-    
-    
-  
+   
    if (Array.isArray(likes)) {
  for (let i = 0; i < likes.length; i++){
  if (likes[i].includes(user.uid)) {
- var WhoLikedFollowIdButtons = document.querySelectorAll(`.WhoLikedFollowButton_${like}`);
+ var WhoLikedFollowIdButtons = document.querySelectorAll(`.WhoLikedFollowButton_${likes[i]}`);
 
 WhoLikedFollowIdButtons.forEach(async function(WhoLikedFollowButton) {
 WhoLikedFollowButton.textContent = "See Profile"; 
@@ -319,8 +320,15 @@ const Following = fetchDoc2.data().Following;
     WhoLikedFollowButton.addEventListener("click", async function() {
     
         if (FollowFlag === 0) {
-            await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
-            await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
+  await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
+   await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
+const combinedId =   user.uid + WhoLikedFollowButton.id
+await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});   
+   
             FollowFlag = 1;
         } else {
             await updateDoc(FollowersRef, { Followers: arrayRemove(user.uid) });
@@ -339,9 +347,9 @@ const Following = fetchDoc2.data().Following;
         }
     });
      })  
-        })
+        }
       } else {
-                    const docRef2 = doc(db, 'Users', likes);
+                    const docRef2 = doc(db, 'Users', likes[i]);
                     const fetchDoc2 = await getDoc(docRef2);
                     if (fetchDoc2.exists()) {
 const FirstNameOfLikedUser = fetchDoc2.data().FirstName;
@@ -349,7 +357,7 @@ const SecondNameOfLikedUser = fetchDoc2.data().SecondName;
 const UsernameOfLikedUser = fetchDoc2.data().Username;
 const ProfilePicOfLikedUser = fetchDoc2.data().ProfilePic;
 const CreatedTimeOfLikedUser = fetchDoc2.data().CreatedAt;
-const UserId = likes;
+const UserId = likes[i];
                         
                     }
                     

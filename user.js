@@ -133,6 +133,7 @@ if (FollowFlag === 0) {
 
 const UpdateFollowers = await updateDoc(FollowersRef, {
      Followers: arrayUnion(user.uid)
+     
       }) 
       
  const UpdateFollowing = await updateDoc(FollowingRef, {
@@ -432,6 +433,12 @@ const Following = fetchDoc2.data().Following;
         if (FollowFlag === 0) {
             await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
             await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
+    const combinedId =   user.uid + WhoLikedFollowButton.id
+await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});   
             FollowFlag = 1;
         } else {
             await updateDoc(FollowersRef, { Followers: arrayRemove(user.uid) });
@@ -621,6 +628,12 @@ SendFollowersUserDets()
                     } else {
         await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
          await updateDoc(FollowingRef, { Following: arrayUnion(userId) });
+       const combinedId =   user.uid + userId
+await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});   
                         button.textContent = "Unfollow";
                        button.style.backgroundColor = "#EFEFEF";
                        button.style.color = "#000";
@@ -771,6 +784,12 @@ SendFollowingUserDets()
                     } else {
    await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
    await updateDoc(FollowingRef, { Following: arrayUnion(userId) });
+   const combinedId =   user.uid + userId
+await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});   
                         button.textContent = "Unfollow";
                        button.style.backgroundColor = "#EFEFEF";
                        button.style.color = "#000";
