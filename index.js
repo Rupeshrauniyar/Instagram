@@ -315,15 +315,17 @@ WhoLikedFollowButtons.forEach(async function(WhoLikedFollowButton) {
 var FollowFlag = 0;
 const FollowersRef = doc(db, 'Users', WhoLikedFollowButton.id);  
 const FollowingRef = doc(db, 'Users', user.uid);  
+const MyChatsRef = doc(db, 'Users', user.uid);  
 const Followers = fetchDoc2.data().Followers;
 const Following = fetchDoc2.data().Following;
     WhoLikedFollowButton.addEventListener("click", async function() {
     
         if (FollowFlag === 0) {
   await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
-   await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
-const combinedId =   user.uid + WhoLikedFollowButton.id
-await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+ await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
+
+const combinedId = user.uid + WhoLikedFollowButton.id
+await updateDoc(MyChatsRef, { MyChats: arrayUnion(combinedId) });
 await setDoc(doc(db, "UsersChats", combinedId), {
   Message: [],
   LastMessage:[]

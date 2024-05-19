@@ -569,6 +569,7 @@ SendFollowersUserDets()
                     const userId = button.getAttribute("data-userid");
                     const FollowersRef = doc(db, 'Users', userId);
                     const FollowingRef = doc(db, 'Users', myId);
+const MyChatsRef = doc(db, 'Users', myId);
 
                     const isFollowing = button.textContent === "Unfollow";
 
@@ -581,9 +582,12 @@ SendFollowersUserDets()
                     } else {
      await updateDoc(FollowersRef, { Followers: arrayUnion(myId) });
     await updateDoc(FollowingRef, { Following: arrayUnion(userId) });    
- const combinedId = myId + userId  
- await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) }); 
-
+ const combinedId = userId + myId
+await updateDoc(MyChatsRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});   
 
 
 await setDoc(doc(db, "UsersChats", combinedId),{messages:[]})
@@ -734,6 +738,7 @@ SendFollowingUserDets()
                     const userId = button.getAttribute("data-userid");
                     const FollowersRef = doc(db, 'Users', userId);
                     const FollowingRef = doc(db, 'Users', myId);
+                    const MyChatsRef = doc(db, 'Users', myId);
 
                     const isFollowing = button.textContent === "Unfollow";
 
@@ -746,11 +751,12 @@ SendFollowingUserDets()
                     } else {
        await updateDoc(FollowersRef, { Followers: arrayUnion(myId) });
       await updateDoc(FollowingRef, { Following: arrayUnion(userId) });
-       await updateDoc(FollowingRef, { 
-  MyChats: arrayUnion([
-    userId
-  ])
-});
+       const combinedId = userId + myId
+await updateDoc(MyChatsRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});   
       
       
                         button.textContent = "Unfollow";

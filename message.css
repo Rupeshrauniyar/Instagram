@@ -278,3 +278,29 @@ margin-top: 7px;
 .margin-topper:nth-last-child(1){
  margin-top: 50px;
 }
+
+
+
+
+/* .messages-container {
+            width: 100%; /* or any desired width */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Align messages to the right */
+            
+        } */
+        
+        .messages-content-left {
+            width: 100%; /* or any desired width */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align messages to the right */
+            padding: 0 20px;
+        }
+          .messages-content-right {
+            width: 100%; /* or any desired width */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Align messages to the right */
+            padding: 0 10px;
+        }

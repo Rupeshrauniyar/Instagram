@@ -72,7 +72,7 @@ MessagingClutter = `<div class="UsersCont" id=${MyChats[i]}>
   <h3>${MyChatsUsername}</h3>
          </div>
     <div class="WhoLikedName">
-    <p>Hello Hello Mic Check Check Check...</p>
+    <p id="DisplayLastMsg" id=${MyChats[i]}></p>
                </div>  
                  </div> 
                      </div>
@@ -87,6 +87,24 @@ MessagingUsers.innerHTML += MessagingClutter
 var UsersConts = document.querySelectorAll(".UsersCont")
 
 UsersConts.forEach(async function(UsersCont) {
+
+/* var UsersContId = UsersCont.id.toString(); 
+const fetchUsersChats = doc(db, "UsersChats", UsersContId);
+const fetchSnapChats = await getDoc(fetchUsersChats);  
+  
+const Messages = fetchSnapChats.data().Message;
+const LastMessages = fetchSnapChats.data().LastMessage
+console.log(LastMessages)
+var DisplayLastMessages = document.querySelectorAll("#DisplayLastMsg")
+DisplayLastMessages.forEach(DisplayLastMessage => {
+for (let i = 0; i< MyChats.length; i++ ) {
+DisplayLastMessage.innerHTML=LastMessages; 
+}
+}) */
+
+
+
+
 UsersCont.addEventListener("click", async function(){
 var nav = document.querySelector("nav")
 nav.style.display="none"
@@ -108,7 +126,7 @@ var UsersContId = UsersCont.id.toString();
 const fetchUsersChats = doc(db, "UsersChats", UsersContId);
 const fetchSnapChats = await getDoc(fetchUsersChats);  
 
-console.log(UsersContId)
+
   
 const Messages = fetchSnapChats.data().Message;
 var ChatBox = document.querySelector(".ChatBox")
@@ -126,9 +144,6 @@ var messageInpBox = document.querySelector("#messageBox")
 var messageBox = document.querySelector(".message-box")
 
 var messageClutter = "";
-
- 
-
 Messages.forEach(async function(Message) {
 messageClutter += `<div class="message-content" data-userId=${Message.UserId}>
 ${Message.Message}
@@ -162,7 +177,10 @@ var SendButton = document.querySelector("#SendButton")
  
 
 SendButton.addEventListener("click",async function(){
+
 var messageInpBoxValue = document.querySelector("#messageBox").value;
+
+
 
 
    const MyChats = userDoc.data().MyChats
@@ -186,11 +204,14 @@ randomId: timestamp+user.uid,
 Time: timestamp
 }
 
+document.querySelector("#messageBox").value = "";
 if (ReceiverUserMyChats.includes(UsersContId)) {
 await updateDoc(ChatsRef,{
     Message: arrayUnion(NewMessage)
 }); 
-
+await updateDoc(ChatsRef, {
+    LastMessage: messageInpBoxValue
+}); 
 }else {
 await updateDoc(ChatsRef,{
     Message: arrayUnion(NewMessage)
@@ -199,13 +220,16 @@ await updateDoc(ChatsRef,{
 await updateDoc(ChatsUsersRef, {
     MyChats: arrayUnion(UsersContId)
 }); 
+await updateDoc(ChatsRef, {
+    LastMessage: messageInpBoxValue
+}); 
 
 }
 
 
 
 
-document.querySelector("#messageBox").value = "";
+
 
 }
 })
@@ -222,40 +246,43 @@ const fetchSnapChats = await getDoc(fetchUsersChats);
 const Mess = fetchSnapChats.data().Message
 for (let i= 0; i< Mess.length; i++ ) {
 const MessId = Mess[i].UserId
-var messageContents = document.querySelectorAll(".message-content")
-if (MessId === user.uid) {
-messageContents.forEach(async function(messageContent) {
-messageContent.style.backgroundColor="red" 
-})
-}else {
-messageContents.forEach(async function(messageContent) {
-messageContent.style.backgroundColor="pink" 
-}) 
-}
-}
-}
-setInterval(FindMessageAuthor,100)
-function displayMessages(messages) {
-                        let messageClutter = "";
-                        messages.forEach(message => {
-                            messageClutter += `<div class="message-content" data-userId=${message.UserId}>
-                                ${message.Message}
-                            </div>
-                          <div class="margin-topper"></>`;
-                        });
-                        messageBox.innerHTML = messageClutter;
-                        const lastMessage = messageBox.lastElementChild;
-                        if (lastMessage) {
-                            lastMessage.scrollIntoView({ behavior: 'smooth' });
-                        }
-                        messageBox.scrollTop = messageBox.scrollHeight;
-                    }
 
-                 
-                    onSnapshot(fetchUsersChats, (docSnapshot) => {
-                        const updatedMessages = docSnapshot.data().Message || [];
-                        displayMessages(updatedMessages);
-                    });
+}
+}
+setInterval(FindMessageAuthor,100);
+
+
+
+function displayMessages(messages, currentUserId) {
+    let messageClutter = "";
+    messages.forEach(message => {
+        const DivAligner = message.UserId === currentUserId ? 'messages-content-right' : 'messages-content-left';
+        messageClutter += `
+            <div class="messages-container ${DivAligner}">
+                <div class="message-content" data-userId="${message.UserId}">
+                    ${message.Message}
+                </div>
+                <div class="margin-topper"></div>
+            </div>`;
+    });
+    messageBox.innerHTML = messageClutter;
+    const lastMessage = messageBox.lastElementChild;
+    if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: 'smooth' });
+    }
+    messageBox.scrollTop = messageBox.scrollHeight;
+}
+
+// Assume user.uid is available in your scope
+var sendAudio = new Audio("./sendMsg.mp3")
+onSnapshot(fetchUsersChats, (docSnapshot) => {
+    const updatedMessages = docSnapshot.data().Message || [];
+    displayMessages(updatedMessages, user.uid);
+    sendAudio.play()
+});
+
+
+                   
 
 var Back = document.querySelector("#Back")
 Back.addEventListener("click", function(){
@@ -269,11 +296,7 @@ messageBox.innerHTML=null;
  
 
 
-document.querySelector("#messageBox").addEventListener("keypress", (e) => {
-if (e.key === 'Enter') {
- SetDocuments();
-                        }
-                    });
+
 })
 }) 
 
