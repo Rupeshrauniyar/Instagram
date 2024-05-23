@@ -293,20 +293,21 @@ margin-top: 7px;
 }
 .imageCont{
  width: 90%;
- height: 80%;
-border-radius: 20px;
+ height: 60%;
+ border-radius: 25px;
+ overflow: hidden;
 }  
 .imageCont img{
  width: 100%;
  height: 100%;
- object-fit: contain;
- 
+ object-fit: cover; 
 }
 .ImageSendButtonDiv{
  display: flex; /* Use flexbox to align items within the button container */
  align-items: center;
  justify-content: center;
  width: 100%; /* Allocate space for the button */
+ margin-top: 35px;
 }
 #ImageSendButton{ 
  background-color:#425ADE ; 
@@ -365,9 +366,7 @@ transition: all .13s ease;
             flex-direction: column;
             align-items: flex-end; /* Align messages to the right */
             padding: 0 10px;
-            align-items: right;
-            justify-content: right;
-            text-align: right;
+            
         }
 .messages-content-right #displayTime{
             text-align: right;

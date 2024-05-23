@@ -138,6 +138,28 @@ sendDivClutter +=`<div class="SendDiv">
 </div>`
 
 SendDivCont.innerHTML=sendDivClutter;
+
+
+
+
+let sendDivImgClutter = ""
+var SendDivImgCont = document.querySelector(".ImageSendDiv")
+sendDivImgClutter +=`
+<div class="imageCont">
+  <img src="" alt="" id="displaySendingImage">
+ </div>
+ <div class="ImageSendButtonDiv">
+<label for="sendImage">
+ <div class="ImageSendingCont">
+  <i class="fa-light fa-images" id="gallery"></i>
+  </div>
+ </label><i class="fa-sharp fa-solid fa-paper-plane" id="ImageSendButton"></i>
+</div>`
+
+SendDivImgCont.innerHTML=sendDivImgClutter;
+
+
+
 var UsersContId = UsersCont.id.toString(); 
 
 
@@ -186,11 +208,11 @@ ${DivSet}
 messageBox.innerHTML=messageClutter;
 
 const lastMessage = messageBox.lastElementChild;
-      if (lastMessage) {
-     lastMessage.scrollIntoView({ behavior: 'smooth' });
-  }
-  messageBox.scrollTop = messageBox.scrollHeight;
-                    
+if (lastMessage) {
+    lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+} else {
+    messageBox.scrollTop = messageBox.scrollHeight;
+}
 
 })
 var Back = document.querySelector("#Back")
@@ -273,21 +295,17 @@ await updateDoc(ChatsRef, {
  
  
  
- 
-async function sendImg() {
- 
+
 var sendImage = document.querySelector("#sendImage")
-var ImageSending = false 
+var ImageSrc; 
  sendImage.addEventListener("change", function(event){
- ImageSending = true
- 
- 
- 
+ImageSrc = ""
  document.querySelector(".ImageSendDiv").style.display="flex"
  document.querySelector(".messageCont").style.display="none"
  document.querySelector(".sendCont").style.display="none"
 
-const ImageSrc = event.target.files[0]  
+ImageSrc = event.target.files[0]  
+
 if (ImageSrc) {
 const reader = new FileReader()
 reader.onload = function(e){
@@ -295,6 +313,7 @@ document.querySelector("#displaySendingImage").src = e.target.result
 } 
 reader.readAsDataURL(ImageSrc)
 }
+})
 var ImageSendButton = document.querySelector("#ImageSendButton")
 
 
@@ -304,18 +323,7 @@ ImageSendButton.addEventListener("click",async function(){
 var UsersChatsRef = sRef(imgDb,"Users Chats Image/" + ImageSrc.name) 
 var UploadImage = await uploadBytesResumable(UsersChatsRef,ImageSrc)
 var ImageURL = await getDownloadURL(UploadImage.ref)
-
-
-
-const MyChats = userDoc.data().MyChats
 const timestamp = new Date();    
-const LoggedinUserId = user.uid;     
-    const TrimmedChatId = UsersContId.replace(LoggedinUserId, "");   
-  const fetchUsers = doc(db, "Users", TrimmedChatId);
-  const fetchSnap = await getDoc(fetchUsers);  
- const ReceiverUserMyChats = fetchSnap.data().MyChats    
-const ChatsUsersRef = doc(db, "Users", TrimmedChatId);
-
 const NewMessageImage = {
 image:ImageURL,
 Name: FirstName,
@@ -323,24 +331,24 @@ UserId: user.uid,
 randomId: timestamp+user.uid,
 Time: timestamp
 }
-ImageSending = false
+ImageSrc = "";
 document.querySelector(".ImageSendDiv").style.display="none"
 document.querySelector(".messageCont").style.display="flex"
 document.querySelector(".sendCont").style.display="flex"
 
 var ImageSendingCont = document.querySelector(".ImageSendingCont") 
-if (ImageSending = false) {
-ImageSendingCont.innerHTML=`hello` 
-}else {
- ImageSendingCont.innerHTML=`<i class="fa-light fa-images" id="gallery"></i>`
-}   
+const MyChats = userDoc.data().MyChats
+
+const LoggedinUserId = user.uid;     
+    const TrimmedChatId = UsersContId.replace(LoggedinUserId, "");   
+  const fetchUsers = doc(db, "Users", TrimmedChatId);
+  const fetchSnap = await getDoc(fetchUsers);  
+ const ReceiverUserMyChats = fetchSnap.data().MyChats    
+const ChatsUsersRef = doc(db, "Users", TrimmedChatId);
 
 if (ReceiverUserMyChats.includes(UsersContId)) {
 await updateDoc(ChatsRef,{
     Message: arrayUnion(NewMessageImage)
-}); 
-await updateDoc(ChatsRef, {
-    LastMessage: NewMessageImage
 }); 
 }else {
 await updateDoc(ChatsRef,{
@@ -350,19 +358,14 @@ await updateDoc(ChatsRef,{
 await updateDoc(ChatsUsersRef, {
     MyChats: arrayUnion(UsersContId)
 }); 
-await updateDoc(ChatsRef, {
-    LastMessage: NewMessageImage
-}); 
-
-} 
- 
-})
 
 
-})
+
 }
 
-sendImg()
+})
+
+
  
 
  
@@ -442,7 +445,9 @@ var DivSet = `
 <div class="msgArea">
   <p id="msg-area">${message.Message}</p>
   </div>
-  <p id="displayTime">${timeAgoText}</p>      
+  <p id="displayTime">${timeAgoText}</p> 
+  <div class="margin-topper"></div> 
+  <div class="hello"></div>    
   ` 
 }else {
 var DivSet = `
@@ -450,7 +455,9 @@ var DivSet = `
 <img src=${message.image} alt="">
 <p id="displayTime">${timeAgoText}</p>
  </div> 
- <p id="displayTime">${timeAgoText}</p>      
+ <p id="displayTime">${timeAgoText}</p>   
+ <div class="margin-topper"></div>  
+ <div class="hello"></div> 
   `  
 }  
   
@@ -469,10 +476,12 @@ ${DivSet}
 
     messageBox.innerHTML = messageClutter;
     const lastMessage = messageBox.lastElementChild;
-    if (lastMessage) {
-        lastMessage.scrollIntoView({ behavior: 'smooth' });
-    }
+if (lastMessage) {
+    lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+} else {
     messageBox.scrollTop = messageBox.scrollHeight;
+}
+
 }
 
 // Assume user.uid is available in your scope
