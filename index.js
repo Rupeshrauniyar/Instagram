@@ -94,7 +94,7 @@ const likedByUser = Like.includes(user.uid);
                 <h5>${timeAgo(TimeStamp)}</h5>            
             </div>                        
             <div class="PostImg">
-                <img src="${UserPostPic}" alt="">  
+                <img src="${UserPostPic}" alt="" class="blurry-image">  
             </div>
             
             <div class="PostInteractionCont">
@@ -523,4 +523,21 @@ var likeFlag = 0;
        
 
 
+
+
+  function removeImageBlur() {
+    const images = document.querySelectorAll('img.blurry-image');
+    images.forEach(image => {      
+        if (image.complete) {
+            // Image is already loaded
+            image.classList.remove('blurry-image'); 
+        } else {
+            // Image is not loaded yet, wait for the 'load' event
+            image.addEventListener('load', () => {
+                image.classList.remove('blurry-image'); 
+            });
+        }
+    });
+}
+window.addEventListener("load",removeImageBlur())
 

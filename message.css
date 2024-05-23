@@ -248,19 +248,22 @@ margin: 10px;
 }
 
 .message-content { 
-margin-top: 7px;
-   
-    background-color: #425ADE;
+max-width: 70%;  
+width: fit-content;
+height: auto;
+word-wrap: break-word;    
+}
+.msgArea{
+margin-top: 7px;  
     border-radius: 18px;
     padding: 10px 15px;  
-    max-width: 70%;  
     width: fit-content;
-    height: auto;
+    height: auto;  
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     color: #fff;
     word-wrap: break-word;
     
-    
+ background-color: #425ADE;
 }
 #Message_Name{
  display: none;
@@ -279,23 +282,82 @@ margin-top: 7px;
  margin-top: 50px;
 }
 
-
-
-
-/* .messages-container {
-            width: 100%; /* or any desired width */
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* Align messages to the right */
-            
-        } */
-        
+.ImageSendDiv{
+ display: none;
+ width: 100%;
+ height: 100%;
+ margin-top: 20px;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+}
+.imageCont{
+ width: 90%;
+ height: 80%;
+border-radius: 20px;
+}  
+.imageCont img{
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
+ 
+}
+.ImageSendButtonDiv{
+ display: flex; /* Use flexbox to align items within the button container */
+ align-items: center;
+ justify-content: center;
+ width: 100%; /* Allocate space for the button */
+}
+#ImageSendButton{ 
+ background-color:#425ADE ; 
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border: none;
+ outline: none;
+ padding: 15px 20px; /* Adjusted padding for better fit */
+ border-radius: 50px;
+ color: #fff;
+ cursor: pointer; /* Added cursor pointer for better UX */
+ width: 80%;
+ 
+ } 
+#gallery{
+padding: 10px; 
+font-size: 17px;
+border-radius: 50%;
+transition: all .13s ease;
+}
+#gallery:active{
+ background-color: #dadada;
+}
+.messageImgCont{
+ display: flex;
+ width: 100%;
+ height: 80%;
+ 
+ overflow: hidden;
+ border-radius: 25px;
+}
+.messageImgCont img{
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ 
+}
+  
         .messages-content-left {
-            width: 100%; /* or any desired width */
+            width: 100%; 
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align messages to the right */
+            align-items: flex-start;
             padding: 0 20px;
+            align-items: left;
+            justify-content: left;
+            text-align: left;
+        }
+        .messages-content-left #displayTime{
+            text-align: left;
         }
           .messages-content-right {
             width: 100%; /* or any desired width */
@@ -303,4 +365,10 @@ margin-top: 7px;
             flex-direction: column;
             align-items: flex-end; /* Align messages to the right */
             padding: 0 10px;
+            align-items: right;
+            justify-content: right;
+            text-align: right;
+        }
+.messages-content-right #displayTime{
+            text-align: right;
         }

@@ -28,7 +28,10 @@ nav{
 
  
 }
-
+.nav2 a{
+text-decoration: none;
+color: #000; 
+}
 .lds-roller,
 .lds-roller div,
 .lds-roller div:after {
@@ -445,7 +448,6 @@ width: 70px;
  align-items: center;
  justify-content: center;
 }
-
 
 
 

@@ -50,7 +50,7 @@ queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
             const Following = userDoc.data().Following;
             const MyChats = userDoc.data().Chats
         
-        console.log(MyChats)
+        
             const MyuserName = document.querySelector("#MyuserName").textContent = Username;
 
             var MyProfileClutter = "";
@@ -384,8 +384,10 @@ const Following = fetchDoc2.data().Following;
     WhoLikedFollowButton.addEventListener("click", async function() {
     
         if (FollowFlag === 0) {
+       
             await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
             await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
+   
    await updateDoc(FollowingRef, { 
   MyChats: arrayUnion({
     userId: userId
@@ -736,6 +738,7 @@ SendFollowingUserDets()
                 button.addEventListener("click", async function() {
                 
                     const userId = button.getAttribute("data-userid");
+                    console.log(userId)
                     const FollowersRef = doc(db, 'Users', userId);
                     const FollowingRef = doc(db, 'Users', myId);
                     const MyChatsRef = doc(db, 'Users', myId);

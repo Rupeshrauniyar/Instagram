@@ -46,15 +46,7 @@ const MyChatsProfilePic = fetchSnap.data().ProfilePic;
 const MyChatsCreatedTime = fetchSnap.data().CreatedAt;
 const MyChatsFollowers = fetchSnap.data().Followers;
 const MyChatsFollowing = fetchSnap.data().Following;
- 
- 
- 
- 
-    
-  
-     
-     
-     
+      
      
 var MessagingClutter ="";
 var MessagingUsers = document.querySelector(".MessagingUsers")
@@ -103,9 +95,31 @@ DisplayLastMessage.innerHTML=LastMessages;
 }) */
 
 
+ 
 
 
-UsersCont.addEventListener("click", async function(){
+UsersCont.addEventListener("click", async function(dets){
+
+var UsersContId = UsersCont.id.toString(); 
+    const LoggedinUserId = user.uid;     
+  const TrimmedChatId = UsersContId.replace(LoggedinUserId, "");   
+  const fetchUsers = doc(db, "Users", TrimmedChatId);
+  const fetchSnap = await getDoc(fetchUsers);  
+ 
+ 
+const MyChatsFirstName = fetchSnap.data().FirstName;
+const MyChatsSecondName = fetchSnap.data().SecondName;
+const MyChatsUsername = fetchSnap.data().Username;
+const MyChatsProfilePic = fetchSnap.data().ProfilePic;
+const MyChatsCreatedTime = fetchSnap.data().CreatedAt;
+const MyChatsFollowers = fetchSnap.data().Followers;
+const MyChatsFollowing = fetchSnap.data().Following;
+
+
+document.querySelector("#ChatProfilePic").src=`${MyChatsProfilePic}`
+document.querySelector("#ChatFirstName").textContent=`${MyChatsFirstName}`
+/* document.querySelector("#ChatSecondName").textContent=`${MyChatsSecondName}` */
+document.querySelector("#ChatUsername").textContent=`${MyChatsUsername}`
 var nav = document.querySelector("nav")
 nav.style.display="none"
 
@@ -113,6 +127,10 @@ nav.style.display="none"
 let sendDivClutter = ""
 var SendDivCont = document.querySelector(".sendCont")
 sendDivClutter +=`<div class="SendDiv">
+ <input type="file" id="sendImage" style="display:none;">
+ <label for="sendImage">
+  <i class="fa-light fa-images" id="gallery"></i>
+ </label>
 <input type="text" id="messageBox" placeholder="Message."> 
 <div class="SendButtonDiv">
 <i class="fa-sharp fa-solid fa-paper-plane" id="SendButton"></i>
@@ -145,9 +163,26 @@ var messageBox = document.querySelector(".message-box")
 
 var messageClutter = "";
 Messages.forEach(async function(Message) {
-messageClutter += `<div class="message-content" data-userId=${Message.UserId}>
-${Message.Message}
- </div>       `
+if (Message.image === undefined) {
+var DivSet = `
+<div class="msgArea">
+  <p id="msg-area">${Message.Message}</p>
+  </div>
+  
+  ` 
+}else {
+var DivSet = `
+<div class="messageImgCont">
+<img src=${Message.image} alt="">
+ </div> 
+     
+  `  
+}  
+messageClutter += `
+<div class="message-content" data-userId=${Message.UserId}>
+${DivSet}
+
+ </div>            `
 messageBox.innerHTML=messageClutter;
 
 const lastMessage = messageBox.lastElementChild;
@@ -156,12 +191,16 @@ const lastMessage = messageBox.lastElementChild;
   }
   messageBox.scrollTop = messageBox.scrollHeight;
                     
-})
 
+})
 var Back = document.querySelector("#Back")
 Back.addEventListener("click", function(){
 ChatBox.style.transform="translate(0,100%)";
 ChatCont.style.transform="translate(0,100%)"; 
+document.querySelector(".ImageSendDiv").style.display="none"
+ document.querySelector(".messageCont").style.display="flex"
+ document.querySelector(".sendCont").style.display="flex"
+ 
 nav.style.display="flex"
 messageBox.innerHTML=null;
 
@@ -174,10 +213,8 @@ var UsersContId = UsersCont.id
 const ChatsRef = doc(db, "UsersChats", UsersContId);
 var SendButton = document.querySelector("#SendButton")
 
- 
 
 SendButton.addEventListener("click",async function(){
-
 var messageInpBoxValue = document.querySelector("#messageBox").value;
 
 
@@ -185,9 +222,9 @@ var messageInpBoxValue = document.querySelector("#messageBox").value;
 
    const MyChats = userDoc.data().MyChats
  const timestamp = new Date();    
-     for (let i = 0; i< MyChats.length; i++ ) {
+     
     const LoggedinUserId = user.uid;     
-    const TrimmedChatId = MyChats[i].replace(LoggedinUserId, "");   
+    const TrimmedChatId = UsersContId.replace(LoggedinUserId, "");   
   const fetchUsers = doc(db, "Users", TrimmedChatId);
   const fetchSnap = await getDoc(fetchUsers);  
  const ReceiverUserMyChats = fetchSnap.data().MyChats
@@ -197,9 +234,9 @@ var messageInpBoxValue = document.querySelector("#messageBox").value;
 
 
 const NewMessage = {
- Message:messageInpBoxValue,
- Name: FirstName,
- UserId: user.uid,
+Message:messageInpBoxValue,
+Name: FirstName,
+UserId: user.uid,
 randomId: timestamp+user.uid,
 Time: timestamp
 }
@@ -225,17 +262,124 @@ await updateDoc(ChatsRef, {
 }); 
 
 }
-
-
+})
 
 
 
 
 }
+
+ 
+ 
+ 
+ 
+ 
+async function sendImg() {
+ 
+var sendImage = document.querySelector("#sendImage")
+var ImageSending = false 
+ sendImage.addEventListener("change", function(event){
+ ImageSending = true
+ 
+ 
+ 
+ document.querySelector(".ImageSendDiv").style.display="flex"
+ document.querySelector(".messageCont").style.display="none"
+ document.querySelector(".sendCont").style.display="none"
+
+const ImageSrc = event.target.files[0]  
+if (ImageSrc) {
+const reader = new FileReader()
+reader.onload = function(e){
+document.querySelector("#displaySendingImage").src = e.target.result 
+} 
+reader.readAsDataURL(ImageSrc)
+}
+var ImageSendButton = document.querySelector("#ImageSendButton")
+
+
+const ChatsRef = doc(db, "UsersChats", UsersContId);
+ImageSendButton.addEventListener("click",async function(){
+ 
+var UsersChatsRef = sRef(imgDb,"Users Chats Image/" + ImageSrc.name) 
+var UploadImage = await uploadBytesResumable(UsersChatsRef,ImageSrc)
+var ImageURL = await getDownloadURL(UploadImage.ref)
+
+
+
+const MyChats = userDoc.data().MyChats
+const timestamp = new Date();    
+const LoggedinUserId = user.uid;     
+    const TrimmedChatId = UsersContId.replace(LoggedinUserId, "");   
+  const fetchUsers = doc(db, "Users", TrimmedChatId);
+  const fetchSnap = await getDoc(fetchUsers);  
+ const ReceiverUserMyChats = fetchSnap.data().MyChats    
+const ChatsUsersRef = doc(db, "Users", TrimmedChatId);
+
+const NewMessageImage = {
+image:ImageURL,
+Name: FirstName,
+UserId: user.uid,
+randomId: timestamp+user.uid,
+Time: timestamp
+}
+ImageSending = false
+document.querySelector(".ImageSendDiv").style.display="none"
+document.querySelector(".messageCont").style.display="flex"
+document.querySelector(".sendCont").style.display="flex"
+
+var ImageSendingCont = document.querySelector(".ImageSendingCont") 
+if (ImageSending = false) {
+ImageSendingCont.innerHTML=`hello` 
+}else {
+ ImageSendingCont.innerHTML=`<i class="fa-light fa-images" id="gallery"></i>`
+}   
+
+if (ReceiverUserMyChats.includes(UsersContId)) {
+await updateDoc(ChatsRef,{
+    Message: arrayUnion(NewMessageImage)
+}); 
+await updateDoc(ChatsRef, {
+    LastMessage: NewMessageImage
+}); 
+}else {
+await updateDoc(ChatsRef,{
+    Message: arrayUnion(NewMessageImage)
+}); 
+
+await updateDoc(ChatsUsersRef, {
+    MyChats: arrayUnion(UsersContId)
+}); 
+await updateDoc(ChatsRef, {
+    LastMessage: NewMessageImage
+}); 
+
+} 
+ 
+})
+
+
 })
 }
 
+sendImg()
+ 
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 SetDocuments()
 async function FindMessageAuthor() {
 
@@ -255,16 +399,74 @@ setInterval(FindMessageAuthor,100);
 
 function displayMessages(messages, currentUserId) {
     let messageClutter = "";
+    
     messages.forEach(message => {
-        const DivAligner = message.UserId === currentUserId ? 'messages-content-right' : 'messages-content-left';
+        const timestamp = message.Time;
+
+        function timeAgo(timestamp) {
+            const current = new Date();
+            const previous = new Date(timestamp.seconds * 1000);
+            const diff = current - previous;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const weeks = Math.floor(days / 7);
+            const months = Math.floor(days / 30);
+            const years = Math.floor(months / 12); // Corrected the years calculation
+
+            if (seconds < 60) {
+                return 'just now';
+            } else if (minutes < 60) {
+                return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            } else if (hours < 24) {
+                return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            } else if (days < 7) {
+                return `${days} day${days > 1 ? 's' : ''} ago`;
+            } else if (weeks < 4) {
+                return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+            } else if (months < 12) {
+                return `${months} month${months > 1 ? 's' : ''} ago`;
+            } else {
+                return `${years} year${years > 1 ? 's' : ''} ago`;
+            }
+        }
+
+        const timeAgoText = timeAgo(timestamp);
+        
+        const divAligner = message.UserId === currentUserId ? 'messages-content-right' : 'messages-content-left';
+  
+  
+if (message.image === undefined) {
+var DivSet = `
+<div class="msgArea">
+  <p id="msg-area">${message.Message}</p>
+  </div>
+  <p id="displayTime">${timeAgoText}</p>      
+  ` 
+}else {
+var DivSet = `
+<div class="messageImgCont">
+<img src=${message.image} alt="">
+<p id="displayTime">${timeAgoText}</p>
+ </div> 
+ <p id="displayTime">${timeAgoText}</p>      
+  `  
+}  
+  
+        
         messageClutter += `
-            <div class="messages-container ${DivAligner}">
-                <div class="message-content" data-userId="${message.UserId}">
-                    ${message.Message}
+            <div class="messages-container ${divAligner}">
+      <div class="message-content" data-userId="${message.UserId}">
+                    
+${DivSet}
+
+              
                 </div>
                 <div class="margin-topper"></div>
             </div>`;
     });
+
     messageBox.innerHTML = messageClutter;
     const lastMessage = messageBox.lastElementChild;
     if (lastMessage) {
@@ -274,13 +476,13 @@ function displayMessages(messages, currentUserId) {
 }
 
 // Assume user.uid is available in your scope
-var sendAudio = new Audio("./sendMsg.mp3")
+var sendAudio = new Audio("./sendMsg.mp3");
 onSnapshot(fetchUsersChats, (docSnapshot) => {
+sendAudio.play();
     const updatedMessages = docSnapshot.data().Message || [];
     displayMessages(updatedMessages, user.uid);
-    sendAudio.play()
+    
 });
-
 
                    
 
@@ -298,9 +500,7 @@ messageBox.innerHTML=null;
 
 
 })
-}) 
-
-
+})
 
 
 
