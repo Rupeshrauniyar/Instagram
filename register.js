@@ -67,19 +67,19 @@ register.addEventListener('click', async function(e) {
     }
 
     try {
-        let profilePicDownloadUrl = 'user.jpg';  // Default profile picture URL
-
-        if (profilePicFile) {
-            const profilePicStorageRef = sRef(imgDb, "Users Profile Picture/" + profilePicFile.name);
-            const profilePicSnapshot = await uploadBytesResumable(profilePicStorageRef, profilePicFile);
-            profilePicDownloadUrl = await getDownloadURL(profilePicSnapshot.ref);
-        }
+      
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(async (userCredential) => {
                 const user = userCredential.user;
 
-               
+             let profilePicDownloadUrl = 'user.jpg';  // Default profile picture URL
+
+        if (profilePicFile) {
+            const profilePicStorageRef = sRef(imgDb, "Users Profile Picture/" + profilePicFile.name);
+            const profilePicSnapshot = await uploadBytesResumable(profilePicStorageRef, profilePicFile);
+            profilePicDownloadUrl = await getDownloadURL(profilePicSnapshot.ref);
+        }    
                 await setDoc(doc(db, "Users", user.uid), {
                     FirstName: firstName,
                     SecondName: secondName,

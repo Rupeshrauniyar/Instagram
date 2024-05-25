@@ -32,9 +32,16 @@ onAuthStateChanged(auth, async (user) => {
      const Following = userDoc.data().Following;
      const MyChats = userDoc.data().MyChats
      
-     for (let i = 0; i< MyChats.length; i++ ) {
+     
+     
+
+MyChats.forEach(async function(MyChats) {
+ 
+
+ 
+    
     const LoggedinUserId = user.uid;     
-    const TrimmedChatId = MyChats[i].replace(LoggedinUserId,"");
+    const TrimmedChatId = MyChats.replace(LoggedinUserId,"");
     
    const fetchUsers = doc(db, "Users", TrimmedChatId);
   const fetchSnap = await getDoc(fetchUsers);  
@@ -51,9 +58,9 @@ const MyChatsFollowing = fetchSnap.data().Following;
 var MessagingClutter ="";
 var MessagingUsers = document.querySelector(".MessagingUsers")
 
- 
 
-MessagingClutter = `<div class="UsersCont" id=${MyChats[i]}>
+
+MessagingClutter = `<div class="UsersCont" id=${MyChats}>
    <div class="WhoLikedUsersCont" >
    <div class="WhoLikedUsersSmall">
    <div class="WhoLikedImg">
@@ -64,7 +71,7 @@ MessagingClutter = `<div class="UsersCont" id=${MyChats[i]}>
   <h3>${MyChatsUsername}</h3>
          </div>
     <div class="WhoLikedName">
-    <p id="DisplayLastMsg" id=${MyChats[i]}></p>
+    <p id="DisplayLastMsg" id=${MyChats}></p>
                </div>  
                  </div> 
                      </div>
@@ -73,33 +80,14 @@ MessagingClutter = `<div class="UsersCont" id=${MyChats[i]}>
   </div>`
 
 MessagingUsers.innerHTML += MessagingClutter
-}
 
+if (MessagingUsers.innerHTML !== "") {
+document.querySelector(".loaderCont").style.display="none" 
+}
 
 var UsersConts = document.querySelectorAll(".UsersCont")
-
 UsersConts.forEach(async function(UsersCont) {
-
-/* var UsersContId = UsersCont.id.toString(); 
-const fetchUsersChats = doc(db, "UsersChats", UsersContId);
-const fetchSnapChats = await getDoc(fetchUsersChats);  
-  
-const Messages = fetchSnapChats.data().Message;
-const LastMessages = fetchSnapChats.data().LastMessage
-console.log(LastMessages)
-var DisplayLastMessages = document.querySelectorAll("#DisplayLastMsg")
-DisplayLastMessages.forEach(DisplayLastMessage => {
-for (let i = 0; i< MyChats.length; i++ ) {
-DisplayLastMessage.innerHTML=LastMessages; 
-}
-}) */
-
-
- 
-
-
 UsersCont.addEventListener("click", async function(dets){
-
 var UsersContId = UsersCont.id.toString(); 
     const LoggedinUserId = user.uid;     
   const TrimmedChatId = UsersContId.replace(LoggedinUserId, "");   
@@ -121,7 +109,20 @@ document.querySelector("#ChatFirstName").textContent=`${MyChatsFirstName}`
 /* document.querySelector("#ChatSecondName").textContent=`${MyChatsSecondName}` */
 document.querySelector("#ChatUsername").textContent=`${MyChatsUsername}`
 var nav = document.querySelector("nav")
-nav.style.display="none"
+var ChatBox = document.querySelector(".ChatBox")
+
+ChatBox.style.transform="translate(0,0)";
+if (ChatBox.style.transform="translate(0,0)") {
+nav.style.display="none" 
+}
+var ChatCont = document.querySelector(".ChatCont")
+
+ChatCont.style.transform="translate(0,0)";
+
+
+
+
+
 
 
 let sendDivClutter = ""
@@ -169,15 +170,7 @@ const fetchSnapChats = await getDoc(fetchUsersChats);
 
   
 const Messages = fetchSnapChats.data().Message;
-var ChatBox = document.querySelector(".ChatBox")
 
-ChatBox.style.transform="translate(0,0)";
-if (ChatBox.style.transform="translate(0,0)") {
-nav.style.display="none" 
-}
-var ChatCont = document.querySelector(".ChatCont")
-
-ChatCont.style.transform="translate(0,0)";
 
 
 var messageInpBox = document.querySelector("#messageBox")
@@ -331,7 +324,9 @@ UserId: user.uid,
 randomId: timestamp+user.uid,
 Time: timestamp
 }
+
 ImageSrc = "";
+
 document.querySelector(".ImageSendDiv").style.display="none"
 document.querySelector(".messageCont").style.display="flex"
 document.querySelector(".sendCont").style.display="flex"
@@ -451,8 +446,10 @@ var DivSet = `
   ` 
 }else {
 var DivSet = `
-<div class="messageImgCont">
-<img src=${message.image} alt="">
+<div class="messageImgCont" id=${message.image}>
+
+<img src=${message.image} alt=""  class="MessageContentDisplay">
+
 <p id="displayTime">${timeAgoText}</p>
  </div> 
  <p id="displayTime">${timeAgoText}</p>   
@@ -463,10 +460,10 @@ var DivSet = `
   
         
         messageClutter += `
-            <div class="messages-container ${divAligner}">
-      <div class="message-content" data-userId="${message.UserId}">
+     <div class="messages-container ${divAligner}" >
+ <div class="message-content" data-userId="${message.UserId}" id=${message.image}>
                     
-${DivSet}
+${DivSet}                    
 
               
                 </div>
@@ -475,14 +472,37 @@ ${DivSet}
     });
 
     messageBox.innerHTML = messageClutter;
+    
+  var messageContents = document.querySelectorAll(".messageImgCont")
+    messageContents.forEach(messageContent => {
+messageContent.addEventListener("click", function(){
+
+
+var DisplayImgCont = document.querySelector(".DisplayImgCont")
+DisplayImgCont.style.display="flex"
+document.querySelector(".NavBar").style.display="none"
+ document.querySelector(".messageCont").style.display="none"
+ document.querySelector(".sendCont").style.display="none"
+ document.querySelector("#CloseDisplayImg").addEventListener("click",function(){
+var DisplayImgCont = document.querySelector(".DisplayImgCont")
+DisplayImgCont.style.display="none"
+document.querySelector(".NavBar").style.display="initial"
+ document.querySelector(".messageCont").style.display="initial"
+ document.querySelector(".sendCont").style.display="initial" 
+})
+var ClickedImage = document.querySelector("#ClickedImage").src=messageContent.id
+
+
+})
+})       
     const lastMessage = messageBox.lastElementChild;
 if (lastMessage) {
     lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
 } else {
-    messageBox.scrollTop = messageBox.scrollHeight;
+    messageBox.scrollTop = messageBox.scrollHeight
+ }
 }
 
-}
 
 // Assume user.uid is available in your scope
 var sendAudio = new Audio("./sendMsg.mp3");
@@ -491,9 +511,9 @@ sendAudio.play();
     const updatedMessages = docSnapshot.data().Message || [];
     displayMessages(updatedMessages, user.uid);
     
-});
+});    
 
-                   
+         
 
 var Back = document.querySelector("#Back")
 Back.addEventListener("click", function(){
@@ -511,7 +531,7 @@ messageBox.innerHTML=null;
 })
 })
 
-
+})
 
 
 

@@ -52,6 +52,9 @@ onAuthStateChanged(auth, async (user) => {
             var postClutter = "";
 
             querySnapshot.forEach((doc) => {
+            
+     
+            
     const PostFirstName = doc.data().PostFirstName;
     const PostSecondName = doc.data().PostSecondName;
     const PostUsername = doc.data().PostUsername;
@@ -62,16 +65,15 @@ onAuthStateChanged(auth, async (user) => {
     const Like = doc.data().Like;    
     const PostId = doc.id;
     const PostuserId = doc.data().PostuserId
+   
 
 
-
-
-const likedByUser = Like.includes(user.uid);
-
+const likedByUser = Like.includes(user.uid);   
+ 
+   
    
     const heartIconClass = likedByUser ? "fa-solid fa-heart" : "fa-regular fa-heart";
     const heartIconColor = likedByUser ? "#FF3040" : "black";
-    
     
 
 
@@ -119,8 +121,8 @@ const likedByUser = Like.includes(user.uid);
             </div>  
         </div>`;
 
-})
 
+})
 
 
     
