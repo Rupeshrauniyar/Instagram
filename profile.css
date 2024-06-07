@@ -15,6 +15,14 @@
  scroll-behavior: smooth;
  
 }
+a {
+  outline: none;              /* Removes the focus outline */
+  -webkit-tap-highlight-color: transparent; /* Removes the highlight color on mobile devices */
+}
+a:active, a:focus {
+  outline: none;
+  background-color: transparent; /* Ensures no background color is applied during active state */
+}
 body {
     user-select: none;
 }

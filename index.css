@@ -17,6 +17,15 @@
 body {
     user-select: none;
 }
+a {
+  outline: none;              /* Removes the focus outline */
+  -webkit-tap-highlight-color: transparent; /* Removes the highlight color on mobile devices */
+}
+a:active, a:focus {
+  outline: none;
+  background-color: transparent; /* Ensures no background color is applied during active state */
+}
+
 nav{
  display: flex;
  align-items: center;
@@ -166,7 +175,7 @@ color: #000;
 
 .Post{
  width: 100%;
- min-height: 180vh;
+ min-height: 100vh;
 }
 .PostCont:nth-last-child(1){
  margin-bottom: 80px;
