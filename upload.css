@@ -14,8 +14,79 @@
  font-family: neu;
  scroll-behavior: smooth;
 }
+a {
+  outline: none;              /* Removes the focus outline */
+  -webkit-tap-highlight-color: transparent; /* Removes the highlight color on mobile devices */
+}
+a:active, a:focus {
+  outline: none;
+  background-color: transparent; /* Ensures no background color is applied during active state */
+}
 body {
     user-select: none;
+}
+
+.SelectCategory{
+ display: flex;
+ padding:10px 15px;
+}
+#photoBtn,#reelBtn{
+ width: 20%;
+ height: 5vh;
+ background-color:#0195f7 ;
+ border-radius: 8px;
+ border: none;
+ outline: none;
+ color: #fff;
+ display: flex;
+ align-items: center;
+ justify-content: center; 
+ margin-right: 10px;
+}
+.ReelBtnCont{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+#uploadReel{
+  width: 90%;
+ height: 5vh;
+ background-color:#0195f7 ;
+ border-radius: 8px;
+ border: none;
+ outline: none;
+ color: #fff;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.UploadPhoto{
+ position: fixed;
+ transform: translate(100%,0);
+}
+
+.UploadReel{
+ position: fixed;
+ transform: translate(0,0);
+}
+#reelCaption{
+ outline: none;
+ resize: none;
+ padding:5px 10px;
+ outline: none;
+ width: 100%;
+ border-bottom: 0.5px solid #000;
+}
+.reelVideoCont{
+ width: 100%;
+ height: 40vh;
+ padding: 10px 0;
+ background-color: #000;
+}
+.reelVideoCont video{
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
 }
 
 .AddPostTab{
@@ -51,12 +122,13 @@ body {
 }
 .imgCont{
 width: 100%;
- height: 55vh;
+ height: 45vh;
  display:flex;
  align-items: center; 
  justify-content: center;
  flex-direction: column; 
  background-color:#EFF0F2;
+ overflow: hidden;
 }
 #labelForAddPostFile{
  height: 55vh;
@@ -75,6 +147,7 @@ width: 100%;
  align-items: center;
  justify-content: center;
  flex-direction: column;
+
 }
 #AddPostImg {
   width: 100%;
@@ -102,7 +175,7 @@ width: 100%;
 }
 #addPostText{
  resize: none;
- padding:20px 10px;
+ padding:10px;
  
  outline: none;
  width: 100%;

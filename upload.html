@@ -20,9 +20,39 @@ href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 
 
 <div class="AddPostTab">
+<div class="SelectCategory">
+<button id="photoBtn">Photo</button>
+<button id="reelBtn">Reel</button>
+</div> 
 <div class="NewPostCont">
- <h3>New Post <i class="ri-image-line"></i></h3>
+ <h3>New Post <i class="ri-image-line"></i></h3> 
 </div>
+
+
+
+<!-- Upload Reel -->
+<div class="UploadReel">
+<input type="file" id="selectReel" style="display:none;" accept="video/*">
+
+<label for="selectReel">
+ <div class="showDiv" >
+    <i class="ri-image-line"></i>
+  <h3>Click to upload</h3>
+  <p>MP4,MP3</p>
+  </div>
+<div class="reelVideoCont">
+<video id="previewReel" autoplay loop muted></video>
+</div>
+</label>
+
+<textarea id="reelCaption" placeholder="Give Your Post A Caption." maxlength="400"rows="4" cols="50" required></textarea>
+<div class="ReelBtnCont">
+<button id="uploadReel">Share</button>
+</div>
+</div>
+<!-- Upload Photos-->
+
+<div class="UploadPhoto">
 
  <div class="AddPostCont">
  <input type="file" name="" id="addPostFileInp" accept="image/*" required>
@@ -51,8 +81,10 @@ href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 </div>
 </div> 
 </div>
+</div>
 
 
+<!-- Bottom Tab -->
 <div class="TabCont">
  <div class="Tabs">
  <a href="index.html"><i class="fa-regular fa-house" id="home"></i></a>

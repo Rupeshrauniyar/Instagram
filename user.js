@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query,updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc,getDocs, addDoc, query,updateDoc, arrayUnion, arrayRemove,setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 
@@ -82,8 +82,8 @@ queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
                                 </div>
                                </div>
                                 <div class="FollowFollowing">
-                                <button id="FollowThem">Follow</button>
-                                <button id="MessageThem">Message</button>
+              <button id="FollowThem" class=${UserId}>Follow</button>
+              <button id="MessageThem" class=${UserId}>Message</button>
                                </div>
                                
                                `;
@@ -140,7 +140,15 @@ const UpdateFollowers = await updateDoc(FollowersRef, {
      Following: arrayUnion(UserId)
       }) 
       
-      
+const combinedId =   user.uid + FollowThem.className
+console.log(FollowThem.className)
+console.log(user.uid)
+console.log(combinedId)
+await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});         
       
       
        
@@ -178,7 +186,24 @@ document.querySelector("#FollowersCount").textContent=`${updatedFollowers}`
 })
 
 
+
+
+function MessageButtonClick() {
+ var MessageButton = document.querySelector("#MessageThem")
+MessageButton.addEventListener("click", async function(){
+
+const combinedId =   user.uid + MessageButton.className
+
+await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
+await setDoc(doc(db, "UsersChats", combinedId), {
+  Message: [],
+  LastMessage:[]
+});         
+window.location.href="message.html"
  
+}) 
+}
+MessageButtonClick() 
 
             
             var postClutter = "";
@@ -433,7 +458,7 @@ const Following = fetchDoc2.data().Following;
         if (FollowFlag === 0) {
             await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });
             await updateDoc(FollowingRef, { Following: arrayUnion(WhoLikedFollowButton.id) });
-    const combinedId =   user.uid + WhoLikedFollowButton.id
+const combinedId =   user.uid + WhoLikedFollowButton.id
 await updateDoc(FollowingRef, { MyChats: arrayUnion(combinedId) });
 await setDoc(doc(db, "UsersChats", combinedId), {
   Message: [],
