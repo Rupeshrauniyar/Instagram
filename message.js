@@ -33,8 +33,8 @@ onAuthStateChanged(auth, async (user) => {
      const MyChats = userDoc.data().MyChats
      
      
-     
-
+var MessagingClutter ="";     
+var MessagingUsers = document.querySelector(".MessagingUsers")
 MyChats.forEach(async function(MyChats) {
  
 
@@ -55,12 +55,12 @@ const MyChatsFollowers = fetchSnap.data().Followers;
 const MyChatsFollowing = fetchSnap.data().Following;
       
      
-var MessagingClutter ="";
-var MessagingUsers = document.querySelector(".MessagingUsers")
 
 
 
-MessagingClutter = `<div class="UsersCont" id=${MyChats}>
+
+
+MessagingClutter += `<div class="UsersCont" id=${MyChats}>
    <div class="WhoLikedUsersCont" >
    <div class="WhoLikedUsersSmall">
    <div class="WhoLikedImg">
@@ -79,11 +79,9 @@ MessagingClutter = `<div class="UsersCont" id=${MyChats}>
           </div>
   </div>`
 
-MessagingUsers.innerHTML += MessagingClutter
+MessagingUsers.innerHTML = MessagingClutter
 
-if (MessagingUsers.innerHTML !== "") {
-document.querySelector(".loaderCont").style.display="none" 
-}
+
 
 var UsersConts = document.querySelectorAll(".UsersCont")
 UsersConts.forEach(async function(UsersCont) {

@@ -1,0 +1,156 @@
+@font-face {
+    font-family: neu;
+    src: url(./TT.ttf);
+}
+
+@font-face {
+    font-family: neu;
+    src: url(./all2.otf);
+} 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: neu;
+    scroll-behavior: smooth;
+    color: #fff;
+}
+a {
+  outline: none;              
+  -webkit-tap-highlight-color: transparent; 
+}
+a:active, a:focus {
+  outline: none;
+  background-color: transparent; 
+}
+
+
+    
+.reelCont{
+height: 85vh;
+background-color: #000;
+}
+.reelNav{
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 20px;
+ color: #fff;
+}
+.reelNav h3{
+ color: #fff;
+}
+
+.PosterDets{
+ width:90%;
+ height: 10vh;
+ display: flex;
+ align-items: center;
+ padding: 0 5px;
+ 
+}
+.ReelBottomCont{
+position: relative; 
+margin-top:125%;
+}
+.PosterDets img{
+ width: 50px;
+ height: 50px;
+ object-fit: cover;
+ border-radius: 50%;
+ 
+}
+.videoCont{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 100%;
+ height: 80%;
+ margin-top: 30px;
+ position: absolute;
+ 
+}
+  .videoCont video {     
+      width: 100%;
+      height: 90%;
+      object-fit: cover;
+    }
+
+.ReelTitle p{
+ font-size: 18px;
+ padding: 0 13px;
+}    
+
+
+
+
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      
+    }
+
+    .swiper-slide {      
+      font-size: 18px;
+      background-color: #000;
+     }
+
+
+.FollowThem{
+ border: none;
+  outline: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-weight: 400;
+  margin: 5px;
+  width: 25%;
+  background-color: #0195F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.SeeProfile{
+border: none;
+  outline: none;
+  color: #000;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-weight: 400;
+  margin: 5px;
+  width: 30%;
+  background-color: #EFEFEF; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}    
+   button:active{
+    transform: translate(.95);
+   } 
+ .Tabs{
+ display: flex;
+ align-items: center;
+ justify-content: space-around;
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+ height: 50px;
+ background-color: #000;
+ color: #fff;
+ box-shadow: 0 0 1px #000;
+}
+
+.Tabs i{
+ font-size: 25px;
+ transition: all .55s ease;
+}
+.Tabs a{
+ color: #fff;
+ text-decoration: none;
+ 
+}

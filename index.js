@@ -320,7 +320,7 @@ const FollowingRef = doc(db, 'Users', user.uid);
 const MyChatsRef = doc(db, 'Users', user.uid);  
 const Followers = fetchDoc2.data().Followers;
 const Following = fetchDoc2.data().Following;
-    WhoLikedFollowButton.addEventListener("click", async function() {
+WhoLikedFollowButton.addEventListener("click", async function() {
     
         if (FollowFlag === 0) {
   await updateDoc(FollowersRef, { Followers: arrayUnion(user.uid) });

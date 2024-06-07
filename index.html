@@ -64,6 +64,12 @@ href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 
 
 <div class="story"> 
+ <div class="personalStory">
+                <div class="personalStoryImg">
+                    <img src="loadingBG.jpg" alt="">
+                </div>
+                <span>Your Story</span>
+            </div>
  <!-- <div class="othersStory">
   <div class="personalStoryImg">
   <img src=${ProfilePic} alt="">
@@ -74,10 +80,79 @@ href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
 
 
 <div class="Post">
- <div class="loaderCont">
- <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
- 
+<div class="PostCont"> 
+            <div class="PosterDets" id="${PostuserId}">
+                <div class="PosterImage">
+                    <img src="loadingBG.jpg" alt="">  
+                </div>
+                <span id="PosterName"></span>
+                <h5></h5>            
+            </div>                        
+            <div class="PostImg">
+                <img src="loadingBG.jpg" alt="" class="blurry-image">  
+            </div>
+            
+            <div class="PostInteractionCont">
+                <div class="PostInteraction">
+<i class="fa-regular fa-heart likeIt" id="${PostId}"></i>           
+                
+                    <i class="fa-regular fa-comment commentIt"></i>
+                    
+                </div>
+                
+                <div class="PostSave">
+                    <i class="fa-regular fa-bookmark" id="saveIt"></i>
+                </div> 
+                
+            </div>
+  <div class="PostLikeCount" id="likeCount_${PostId}">      
  </div>
+ 
+
+     <div class="PostTitle">
+<h4 id="PostWholeTitle"></h4>
+            </div>  
+        </div>
+        
+        
+        
+  <div class="PostCont"> 
+            <div class="PosterDets" id="${PostuserId}">
+                <div class="PosterImage">
+                    <img src="loadingBG.jpg" alt="">  
+                </div>
+                <span id="PosterName"></span>
+                <h5></h5>            
+            </div>                        
+            <div class="PostImg">
+                <img src="loadingBG.jpg" alt="" class="blurry-image">  
+            </div>
+            
+            <div class="PostInteractionCont">
+                <div class="PostInteraction">
+<i class="fa-regular fa-heart likeIt" id="${PostId}"></i>           
+                
+                    <i class="fa-regular fa-comment commentIt"></i>
+                    
+                </div>
+                
+                <div class="PostSave">
+                    <i class="fa-regular fa-bookmark" id="saveIt"></i>
+                </div> 
+                
+            </div>
+  <div class="PostLikeCount" id="likeCount_${PostId}">      
+ </div>
+ 
+
+     <div class="PostTitle">
+<h4 id="PostWholeTitle"></h4>
+            </div>  
+        </div>      
+        
+        
+        
+        
 </div>
 
 
