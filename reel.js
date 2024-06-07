@@ -60,9 +60,9 @@ querySnapshot.forEach(doc => {
     ReelClutter += `
     <div class="swiper-slide" role="group" aria-label="1 / 2" style="height: 660px;">
         <div class="videoCont">
-   <video src="${UserPostPic}"  loop id="ReelVideo"></video> 
+   <video src="${UserPostPic}" loop id="ReelVideo"></video> 
         </div>
-        
+      
         <div class="ReelBottomCont">
         <div class="ReelBottom">
             <div class="PosterDets" id=${PostuserId}>
@@ -71,7 +71,6 @@ querySnapshot.forEach(doc => {
                 </div> 
                 <h3 id="ReelUsername">${PostUsername}</h3>
  <button class="FollowThem" id=${PostuserId} >Follow</button>
- <button class="SeeProfile" id=${PostuserId} style="display:none;">See Profile</button> 
               </div> 
             
             <div class="ReelTitle">
@@ -156,6 +155,8 @@ const FollowingRef = doc(db, 'Users', user.uid);
 const MyChatsRef = doc(db, 'Users', user.uid);  
 
 if (WhoLikedFollowButton.id !== user.uid) {
+WhoLikedFollowButton.style.display="initial"
+
 WhoLikedFollowButton.addEventListener("click", async function() {
 console.log("clicked")    
         if (FollowFlag === 0) {
@@ -178,16 +179,8 @@ await setDoc(doc(db, "UsersChats", combinedId), {
 
 
     
- WhoLikedFollowButtons.forEach(async function(WhoLikedFollowButton) {
-SeeProfiles.forEach(async function(SeeProfile) {
-if (SeeProfile.id === user.uid) {
-WhoLikedFollowButton.style.display="none"
-SeeProfile.style.display="initial"
-SeeProfile.addEventListener("click",function(){
-window.location.href="profile.html" 
-})
 
-}else if (FollowFlag === 1) {
+ if (FollowFlag === 1) {
             WhoLikedFollowButton.textContent = "Unfollow";
             WhoLikedFollowButton.style.backgroundColor = "#EFEFEF";
             WhoLikedFollowButton.style.color = "#000";
@@ -197,16 +190,19 @@ window.location.href="profile.html"
             WhoLikedFollowButton.style.color = "#fff";
         } 
      })   
-   
-}) 
-})  
+ 
+}else{
+ 
+ WhoLikedFollowButton.style.display="none"
+
+}
 
     
 
 
   
 
-}
+
 })
     
      
@@ -259,9 +255,7 @@ function VideoPlayer() {
 
 var MuteFlag = 0;
 var ReelVideos = document.querySelectorAll("#ReelVideo") 
-if (ReelVideos.length > 0) {
-ReelVideos[0].setAttribute("autoplay","true") 
-}
+
 ReelVideos.forEach(async function (ReelVideo) {
 
 ReelVideo.addEventListener("click", function(){
@@ -284,6 +278,10 @@ ReelVideo.pause()
 ReelVideo.addEventListener("touchend", function(){
 ReelVideo.play() 
 })
+
+
+
+
 
 })
 }   
